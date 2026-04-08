@@ -6,7 +6,7 @@ import Icon3 from "../assets/Icon-3.svg";
 import Icon4 from "../assets/Icon-4.svg";
 import Icon5 from "../assets/Icon-5.svg";
 import Icon6 from "../assets/Icon-6.svg";
-import IconArrow from "../assets/Icon-arrow.svg";
+// import IconArrow from "../assets/Icon-arrow.svg";
 import IconArrowSubmit from "../assets/icon-submit.svg";
 import IconBlueArrow from "../assets/icon-blue-arrow.svg";
 import IconGoldArrow from "../assets/icon-gold-arrow.svg";
