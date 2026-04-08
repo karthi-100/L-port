@@ -8,6 +8,11 @@ import Icon5 from "../assets/Icon-5.svg";
 import Icon6 from "../assets/Icon-6.svg";
 import IconArrow from "../assets/Icon-arrow.svg";
 import IconHealthcare from "../assets/Icon-healthcare.svg";
+import IconLinkedIn from "../assets/icon-linkedin.svg";
+import IconX from "../assets/icon-X.svg";
+import IconFacebook from "../assets/icon-facebook.svg";
+import IconInstagram from "../assets/icon-instagram.svg";
+import IconYoutube from "../assets/icon-youtube.svg";
 // ─── Asset URLs from Figma ────────────────────────────────────────────────────
 const imgLogo = Logo;
 const imgLawLibrary = "https://www.figma.com/api/mcp/asset/c2b10731-bb51-46b3-8fbd-88ac05c619d1";
@@ -26,11 +31,11 @@ const imgArrowSubmit = "https://www.figma.com/api/mcp/asset/fbbfb89f-56b2-4771-a
 const imgIconDisclaimerLabel = "https://www.figma.com/api/mcp/asset/0490fcc5-e5db-46af-99e7-91638066b9c7";
 const imgIconPayment = "https://www.figma.com/api/mcp/asset/3e94b5bf-86ab-4b82-86ca-eed128e22c38";
 const imgArrowPayment = "https://www.figma.com/api/mcp/asset/b933d281-5ebd-499a-8f13-06c2db6d38ad";
-const imgSocialLinkedIn = "https://www.figma.com/api/mcp/asset/34a2535b-c32c-44ae-b362-fc61949b61d2";
-const imgSocialTwitter = "https://www.figma.com/api/mcp/asset/946c19d6-3299-4fb2-bcb2-a57cfad9abed";
-const imgSocialFacebook = "https://www.figma.com/api/mcp/asset/4a402e97-2174-4521-a524-aa886028d5e7";
-const imgSocialInstagram = "https://www.figma.com/api/mcp/asset/3c680d6b-85ab-4845-8f93-b7152a9f02a9";
-const imgSocialYoutube = "https://www.figma.com/api/mcp/asset/d392ea9c-838e-47cf-87de-faf391552e61";
+const imgSocialLinkedIn = IconLinkedIn;
+const imgSocialTwitter = IconX;
+const imgSocialFacebook = IconFacebook;
+const imgSocialInstagram = IconInstagram;
+const imgSocialYoutube = IconYoutube;
 const imgFooterPhone = "https://www.figma.com/api/mcp/asset/29625f42-142d-43b7-b795-1758af6e6b66";
 const imgFooterAddress = "https://www.figma.com/api/mcp/asset/0d9cd6ae-e3ce-47b8-a1e0-377993283ec0";
 const imgFooterEmail = "https://www.figma.com/api/mcp/asset/34d99181-64e8-472a-a753-21a39a17ccba";
@@ -96,8 +101,8 @@ const GLOBAL_CSS = `
   .ersa-practice-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
 
   /* ── About ── */
-  .ersa-about-section { background: #f9f9fb; padding: 128px 80px; }
-  .ersa-about-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; max-width: 1280px; margin: 0 auto; }
+  .ersa-about-section { background: #f9f9fb; padding: 128px 104px; text-align: left !important; }
+  .ersa-about-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; max-width: 1280px; margin: 0; }
   .ersa-portrait { width: 485px; height: 607px; flex-shrink: 0; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
 
   /* ── Form grid ── */
@@ -111,7 +116,7 @@ const GLOBAL_CSS = `
   .ersa-payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 1392px; margin: 0; }
 
   /* ── Disclaimer ── */
-  .ersa-disclaimer-section { background: #f3f3f5; border-top: 1px solid rgba(197,198,210,0.1); padding: 65px 70px 64px; position: relative; overflow: hidden; }
+  .ersa-disclaimer-section { background: #f3f3f5; border-top: 1px solid rgba(197,198,210,0.1); padding: 65px 104px 64px; position: relative; overflow: hidden; text-align: left !important; }
 
   /* ── Footer ── */
   .ersa-footer { background: #00113a; padding: 44px 152px 0; overflow: hidden; }
@@ -125,6 +130,7 @@ const GLOBAL_CSS = `
     .ersa-practice-section { padding: 100px 120px; text-align: left; }
     .ersa-about-section { padding: 140px 120px; }
     .ersa-payment-section { padding: 97px 120px 96px; }
+    .ersa-disclaimer-section { padding: 65px 120px 64px; }
   }
 
   /* ════════════
@@ -171,38 +177,45 @@ const GLOBAL_CSS = `
 
     .ersa-hero { min-height: auto; }
     .ersa-hero-img-abs { display: none; }
-    .ersa-hero-text { padding: 32px 20px 48px; }
+    .ersa-hero-text { padding: 32px 20px 48px; text-align: center !important; }
 
     .ersa-hero-h1 { font-size: 38px !important; line-height: 44px !important; margin: 0 0 24px !important; }
     .ersa-hero-p { font-size: 16px !important; line-height: 26px !important; }
+    .ersa-hero-btns { justify-content: center !important; }
     .ersa-hero-btns button { font-size: 13px !important; padding: 14px 24px !important; }
 
-    .ersa-practice-section { padding: 48px 20px; }
+    .ersa-practice-section { padding: 48px 20px; text-align: center !important; }
+    .ersa-practice-section > p, .ersa-practice-section > h2 { text-align: center !important; }
     .ersa-practice-grid { grid-template-columns: 1fr; gap: 20px; }
-    .ersa-practice-wide { grid-column: 1; }
-    .ersa-practice-card { padding: 28px 24px; gap: 10px; }
+    .ersa-practice-wide { grid-column: 1; text-align: left !important; }
+    .ersa-practice-card { padding: 28px 24px; gap: 10px; text-align: left !important; }
+    .ersa-practice-card h3, .ersa-practice-wide h3, .ersa-practice-card p, .ersa-practice-wide p { text-align: left !important; }
     .ersa-practice-h2 { font-size: 32px !important; line-height: 36px !important; }
 
-    .ersa-about-section { padding: 48px 20px; }
-    .ersa-about-grid { gap: 24px; }
+    .ersa-about-section { padding: 48px 20px; text-align: center !important; }
+    .ersa-about-grid { gap: 24px; justify-items: center !important; }
     .ersa-portrait { height: 360px; box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
     .ersa-about-h2 { font-size: 40px !important; line-height: 44px !important; }
     .ersa-about-p { font-size: 16px !important; line-height: 26px !important; }
 
-    .ersa-contact-section { padding: 48px 16px; }
-    .ersa-form-card { padding: 24px 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+    .ersa-contact-section { padding: 48px 16px; text-align: center; }
+    .ersa-form-card { padding: 24px 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.08); text-align: left; }
     .ersa-form-grid { grid-template-columns: 1fr; gap: 20px; }
     .ersa-form-full { grid-column: 1; }
 
-    .ersa-disclaimer-section { padding: 36px 20px; }
+    .ersa-disclaimer-section { padding: 36px 20px; text-align: left !important; }
+    .ersa-disclaimer-section > div > div:first-child { justify-content: flex-start !important; }
 
-    .ersa-payment-section { padding: 48px 20px; }
-    .ersa-payment-grid { gap: 32px; }
+    .ersa-payment-section { padding: 48px 20px; text-align: center !important; }
+    .ersa-payment-grid { gap: 32px; justify-items: center; }
+    .ersa-payment-grid > div:first-child button { margin: 0 auto; }
     .ersa-payment-h2 { font-size: 32px !important; line-height: 36px !important; }
-    .ersa-payment-p { font-size: 16px !important; line-height: 26px !important; }
+    .ersa-payment-p { font-size: 16px !important; line-height: 26px !important; margin-left: auto; margin-right: auto; }
 
-    .ersa-footer { padding: 36px 20px 0; }
-    .ersa-footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    .ersa-footer { padding: 36px 20px 0; text-align: center !important; }
+    .ersa-footer-grid { grid-template-columns: 1fr; gap: 24px; justify-items: center; }
+    .ersa-footer-grid > div { align-items: center !important; }
+    .ersa-footer-grid > div > div { justify-content: center !important; }
     .ersa-footer-spacer { display: none; }
   }
 
@@ -615,12 +628,28 @@ const DisclaimerSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
   return (
   <section ref={ref} className={`ersa-disclaimer-section scroll-animate ${visible ? "visible" : ""}`}>
-    <div style={{ maxWidth: 768 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, opacity: 0.8 }}>
+    <img 
+      src={imgIconDispute} 
+      alt="" 
+      loading="lazy" 
+      style={{ 
+        position: "absolute", 
+        right: "15%", 
+        top: "50%", 
+        transform: "translateY(-50%)", 
+        height: "85%", 
+        width: "auto", 
+        opacity: 0.04, 
+        zIndex: 0,
+        pointerEvents: "none"
+      }} 
+    />
+    <div style={{ maxWidth: 768, position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, opacity: 0.8, justifyContent: "flex-start" }}>
         <img src={imgIconDisclaimerLabel} alt="" loading="lazy" style={{ width: 15, height: 16 }} />
-        <span style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 20, color: "#00113a", fontStyle: "italic" }}>Disclaimer</span>
+        <span style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 20, color: "#00113a", fontStyle: "italic", textAlign: "left" }}>Disclaimer</span>
       </div>
-      <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", lineHeight: "20px", margin: 0 }}>
+      <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", lineHeight: "20px", margin: 0, textAlign: "left" }}>
         As per the rules of the Bar Council of India, advocates are not permitted to solicit work or advertise.
         This website is provided for informational purposes only and does not constitute legal advice.
         By accessing this website, you acknowledge that you are seeking information about ERSA Legal of your own
