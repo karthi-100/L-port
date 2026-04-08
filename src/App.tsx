@@ -1,11 +1,13 @@
 import './App.css'
-import ERSALegal from './components/ERSAlegal'
+import ERSALegalClaude from './components/ERSALegalClaude'
+import ERSALegal from './components/ERSALegal'
 
 function App() {
 
   return (
     <>
-      <ERSALegal/>
+      {/* <ERSALegal/> */}
+      <ERSALegalClaude/>
     </>
   )
 }

@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import ERSALogo from "../assets/ERSALogo.svg"
+import Icon1 from "../assets/Icon-1.svg"
+import Icon2 from "../assets/Icon-2.svg"
+import Icon3 from "../assets/Icon-3.svg"
+import Icon4 from "../assets/Icon-4.svg"
+import Icon5 from "../assets/Icon-5.svg"
+import Icon6 from "../assets/Icon-6.svg"
 /* ─── Google Fonts Import ─── */
 const fontImport = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap');
@@ -55,6 +61,26 @@ const globalStyles = `
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes pulseOpacity {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+  .ersa-pulse { animation: pulseOpacity 1.5s ease-in-out infinite; }
+  .ersa-spinner {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;
+    border-top-color: #fff; animation: spin 0.8s linear infinite;
+  }
+  .ersa-spinner-large {
+    display: block; width: 40px; height: 40px;
+    border: 3px solid rgba(0,17,58,0.1); border-radius: 50%;
+    border-top-color: #00113a; animation: spin 0.8s linear infinite;
+  }
 `;
 
 /* ─── Color Palette (Professional & Restrained) ─── */
@@ -93,17 +119,17 @@ const getButtonStyle = (variant: "primary" | "secondary" = "primary"): React.CSS
 
   return variant === "primary"
     ? {
-        ...base,
-        background: colors.primary,
-        color: "#fff",
-        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08)",
-      }
+      ...base,
+      background: colors.primary,
+      color: "#fff",
+      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08)",
+    }
     : {
-        ...base,
-        background: "transparent",
-        color: colors.primary,
-        border: `1.5px solid ${colors.primary}`,
-      };
+      ...base,
+      background: "transparent",
+      color: colors.primary,
+      border: `1.5px solid ${colors.primary}`,
+    };
 };
 
 /* ─── Reusable Card Style ─── */
@@ -192,6 +218,18 @@ const ERSALegal: React.FC = () => {
     message: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFading(true);
+      setTimeout(() => setLoading(false), 500); // fade out duration
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Intersection observers for different sections
   const [heroRef, heroVisible] = useIntersectionObserver();
   const [servicesRef, servicesVisible] = useIntersectionObserver();
@@ -205,21 +243,37 @@ const ERSALegal: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Enquiry submitted!");
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      alert("Enquiry submitted successfully!");
+    }, 2000);
   };
 
   const practiceAreas = [
-    { icon: "⚖️", title: "Dispute Resolution & Litigation", desc: "Representation in civil, commercial, writ, and arbitration matters before the High Court and other forums, including complex disputes." },
-    { icon: "🏢", title: "Corporate & Commercial Advisory", desc: "Advising on contracts, business arrangements, structuring, and agreed-across commercial operations." },
-    { icon: "🌐", title: "International & Cross-Border", desc: "Advising clients on legal and regulatory issues involving India and international jurisdictions, including structuring and compliance." },
-    { icon: "📋", title: "Customs and Taxation", desc: "Advisory and disputes relating to Customs, Central Excise, GST, taxation matters, and foreign trade compliance." },
-    { icon: "💡", title: "Intellectual Property", desc: "Intellectual property matters across patents, trademarks, and copyrights, including registration, enforcement, and disputes." },
-    { icon: "🏠", title: "Real Estate", desc: "Advising on property transactions, due diligence, development arrangements, succession planning, and estate matters." },
+    { icon: Icon1, title: "Dispute Resolution & Litigation", desc: "Representation in civil, commercial, writ, and arbitration matters before the High Court and other forums, including complex disputes." },
+    { icon: Icon2, title: "Corporate & Commercial Advisory", desc: "Advising on contracts, business arrangements, structuring, and agreed-across commercial operations." },
+    { icon: Icon3, title: "International & Cross-Border", desc: "Advising clients on legal and regulatory issues involving India and international jurisdictions, including structuring and compliance." },
+    { icon: Icon4, title: "Customs and Taxation", desc: "Advisory and disputes relating to Customs, Central Excise, GST, taxation matters, and foreign trade compliance." },
+    { icon: Icon5, title: "Intellectual Property", desc: "Intellectual property matters across patents, trademarks, and copyrights, including registration, enforcement, and disputes." },
+    { icon: Icon6, title: "Real Estate", desc: "Advising on property transactions, due diligence, development arrangements, succession planning, and estate matters." },
   ];
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", color: colors.text, margin: 0, padding: 0, overflowX: "hidden", background: colors.background }}>
       <style>{globalStyles}</style>
+
+      {loading && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 9999, background: "#ffffff",
+          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+          transition: "opacity 0.5s ease-out", opacity: fading ? 0 : 1,
+        }}>
+          <img src={ERSALogo} alt="ERSA Legal" style={{ width: 120, height: "auto", mixBlendMode: "darken", marginBottom: 24 }} className="ersa-pulse" />
+          <div className="ersa-spinner-large" />
+        </div>
+      )}
 
       {/* ─── NAVBAR ─── */}
       <nav style={{
@@ -238,8 +292,8 @@ const ERSALegal: React.FC = () => {
                 textDecoration: "none", color: colors.text, fontSize: 14, fontFamily: "'DM Sans', sans-serif",
                 fontWeight: 500, transition: "color 200ms ease-out",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = colors.accent)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = colors.text)}>
+                onMouseEnter={(e) => (e.currentTarget.style.color = colors.accent)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = colors.text)}>
                 {item}
               </a>
             ))}
@@ -277,12 +331,12 @@ const ERSALegal: React.FC = () => {
         <div style={{
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-          minHeight: isMobile ? "auto" : 680,
-          alignItems: "center",
+          minHeight: isMobile ? "auto" : "80vh",
+
         }}>
           {/* Left */}
           <div style={{
-            padding: isMobile ? "64px 20px 56px" : `0px ${px}`,
+            padding: isMobile ? " 24px " : isTablet ? "80px 40px" : `100px 80px 100px ${px}`,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -291,42 +345,47 @@ const ERSALegal: React.FC = () => {
           }}>
             <p style={{
               fontSize: 11, letterSpacing: 1.2, textTransform: "uppercase", color: colors.accent,
-              marginBottom: 28, fontFamily: "'DM Sans', sans-serif", fontWeight: 700, alignSelf: "flex-start",
+              marginBottom: 20, fontFamily: "'DM Sans', sans-serif", fontWeight: 700, alignSelf: "flex-start",
               lineHeight: 1.4, opacity: 0.95,
             }}>
-              The Principal Jurist
+              THE PRINCIPAL JURIST
             </p>
-            <h1 style={{
-              fontSize: isMobile ? 40 : isTablet ? 48 : 64, fontWeight: 700, lineHeight: 1.15,
-              color: colors.primary, margin: "0 0 14px 0", fontFamily: "'Manrope', sans-serif",
+            <p style={{
+              fontSize: isMobile ? 48 : isTablet ? 56 : 76, fontWeight: 700, lineHeight: 1.1,
+              color: colors.primary, margin: "0 0 28px 0", fontFamily: "'Manrope', sans-serif",
               animation: heroVisible ? "fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s forwards" : "none",
               opacity: heroVisible ? 1 : 0,
-              letterSpacing: -0.8,
+              letterSpacing: -1.5,
             }}>
-              Defined by Approach.
-              <br/> Guided by Tradition.
-            </h1>
-            <p style={{
-              fontSize: 15, lineHeight: 1.75, color: colors.textLight, fontFamily: "'DM Sans', sans-serif",
-              marginBottom: 20, fontWeight: 400,
+              Defined by Approach.<br />Guided by Tradition.
+            </p>
+            <div style={{
+              display: "flex", flexDirection: "column", gap: 24, marginBottom: 44,
               animation: heroVisible ? "fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.14s forwards" : "none",
               opacity: heroVisible ? 1 : 0,
-              letterSpacing: 0.2,
             }}>
-              ERSA Legal is a boutique legal practice based in Chennai, advising clients across civil, regulatory, and cross-border matters across South India.
-            </p>
-            <p style={{
-              fontSize: 15, lineHeight: 1.75, color: colors.textLight, fontFamily: "'DM Sans', sans-serif",
-              marginBottom: 44, fontWeight: 400,
-              animation: heroVisible ? "fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s forwards" : "none",
-              opacity: heroVisible ? 1 : 0,
-              letterSpacing: 0.2,
-            }}>
-              We bring structured thinking, measured execution, and strategic representation to individuals, businesses, and international clients navigating complex legal environments.
-            </p>
-            <div style={{ 
-              display: "flex", 
-              flexWrap: "wrap", 
+              <p style={{
+                fontSize: 15, lineHeight: 1.75, color: colors.textLight, fontFamily: "'DM Sans', sans-serif",
+                margin: 0, fontWeight: 400, letterSpacing: 0.2,
+              }}>
+                ERSA Legal is a boutique legal practice based in Chennai, advising clients across civil, regulatory, and cross-border matters across South India. The focus is on understanding the objective behind each matter and developing a legal strategy aligned to it. Whether addressing an immediate issue or a broader concern, the approach remains practical, structured, and responsive to the context in which it operates.
+              </p>
+              <p style={{
+                fontSize: 15, lineHeight: 1.75, color: colors.textLight, fontFamily: "'DM Sans', sans-serif",
+                margin: 0, fontWeight: 400, letterSpacing: 0.2,
+              }}>
+                We act for individuals, businesses, and overseas clients navigating legal and regulatory environments in India. Each matter is approached with careful analysis and an understanding of the specific context in which it arises.
+              </p>
+              <p style={{
+                fontSize: 15, lineHeight: 1.75, color: colors.textLight, fontFamily: "'DM Sans', sans-serif",
+                margin: 0, fontWeight: 400, letterSpacing: 0.2,
+              }}>
+                The practice is built on structured thinking and measured execution, with an emphasis on clarity, consistency, and effective representation.
+              </p>
+            </div>
+            <div style={{
+              display: "flex",
+              flexWrap: "wrap",
               gap: 16,
               animation: heroVisible ? "fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.22s forwards" : "none",
               opacity: heroVisible ? 1 : 0,
@@ -336,14 +395,14 @@ const ERSALegal: React.FC = () => {
                 boxShadow: "0 4px 12px rgba(0, 17, 58, 0.2)",
                 transition: "all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(0, 17, 58, 0.32)";
-                (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 12px rgba(0, 17, 58, 0.2)";
-                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              }}>
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(0, 17, 58, 0.32)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 12px rgba(0, 17, 58, 0.2)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                }}>
                 Book Consultation
               </a>
               <a href="#services" style={{
@@ -351,73 +410,48 @@ const ERSALegal: React.FC = () => {
                 boxShadow: "0 1px 2px rgba(0, 0, 0, 0.04)",
                 transition: "all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = colors.primary;
-                (e.currentTarget as HTMLElement).style.color = "#fff";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 12px rgba(0, 17, 58, 0.15)";
-                (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-                (e.currentTarget as HTMLElement).style.color = colors.primary;
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 1px 2px rgba(0, 0, 0, 0.04)";
-                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              }}>
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = colors.primary;
+                  (e.currentTarget as HTMLElement).style.color = "#fff";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 12px rgba(0, 17, 58, 0.15)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = "transparent";
+                  (e.currentTarget as HTMLElement).style.color = colors.primary;
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 1px 2px rgba(0, 0, 0, 0.04)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                }}>
                 View Services
               </a>
             </div>
           </div>
 
-          {/* Right — hero image */}
+          {/* Right — hero image container */}
           <div style={{
-            height: isMobile ? 340 : "auto",
-            minHeight: isMobile ? 340 : 680,
             position: "relative",
-            overflow: "hidden",
+            minHeight: isMobile ? 360 : "auto",
+            display: "flex",
+            padding: isMobile ? "0" : "32px 32px 32px 0",
             animation: heroVisible ? "slideInRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards" : "none",
             opacity: heroVisible ? 1 : 0,
           }}>
-            {/* Background decorative elements */}
             <div style={{
-              position: "absolute",
-              top: "-20%",
-              right: "-10%",
-              width: "40%",
-              height: "40%",
-              borderRadius: "50%",
-              pointerEvents: "none",
-            }} />
-            <div style={{
-              position: "absolute",
-              bottom: "-30%",
-              left: "-5%",
-              width: "50%",
-              height: "50%",
-              borderRadius: "50%",
-              background: "rgba(119, 90, 25, 0.08)",
-              filter: "blur(80px)",
-              pointerEvents: "none",
-            }} />
-            
-            <div style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: `url("https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80")`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              transition: "opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              mixBlendMode: "overlay",
-            }} />
-            
-            {/* Subtle grain texture overlay */}
-            <div style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' result='noise' /%3E%3C/filter%3E%3Crect width='400' height='400' fill='white' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E")`,
-              opacity: 0.5,
-              mixBlendMode: "overlay",
-              pointerEvents: "none",
-            }} />
+              flex: 1,
+              position: "relative",
+              overflow: "hidden",
+              borderRadius: isMobile ? "0" : "16px",
+              boxShadow: isMobile ? "none" : "0 24px 48px rgba(0,0,0,0.12)",
+            }}>
+              <div style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage: `url("/hero_library.png")`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                transition: "opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }} />
+            </div>
           </div>
         </div>
       </section>
@@ -474,7 +508,9 @@ const ERSALegal: React.FC = () => {
                 (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
               }}
             >
-              <div style={{ fontSize: 28 }}>{area.icon}</div>
+              <div style={{ fontSize: 24, display: "flex", alignItems: "center" }}>
+                <img src={area.icon} alt={area.title} style={{ width: 20, height: 20, objectFit: "contain" }} />
+              </div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: colors.primary, margin: 0, fontFamily: "'Manrope', sans-serif" }}>{area.title}</h3>
               <p style={{ fontSize: 14, lineHeight: 1.6, color: colors.textLight, margin: 0, fontFamily: "'DM Sans', sans-serif" }}>{area.desc}</p>
               <a href="#" style={{
@@ -482,8 +518,8 @@ const ERSALegal: React.FC = () => {
                 fontFamily: "'DM Sans', sans-serif", marginTop: 4, textTransform: "uppercase", fontWeight: 600,
                 transition: "opacity 200ms ease-out",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>
+                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
+                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>
                 Explore Service →
               </a>
             </div>
@@ -509,8 +545,8 @@ const ERSALegal: React.FC = () => {
             fontSize: 12, letterSpacing: 0.5, color: "#FFDEA5", textDecoration: "none", fontFamily: "'DM Sans', sans-serif",
             display: "inline-block", marginTop: 16, fontWeight: 600, transition: "opacity 200ms ease-out",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.8")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.8")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>
             View Regulatory Frameworks →
           </a>
         </div>
@@ -671,19 +707,33 @@ const ERSALegal: React.FC = () => {
                 resize: "vertical",
               }} />
             </div>
-            <button type="submit" style={{
+            <button type="submit" 
+              disabled={isSubmitting}
+              style={{
               ...getButtonStyle("primary"),
               width: isMobile ? "100%" : "auto",
+              opacity: isSubmitting ? 0.8 : 1,
+              cursor: isSubmitting ? "not-allowed" : "pointer",
             }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = colors.accentHover;
-              (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = colors.primary;
-              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-            }}>
-              Send Inquiry
+              onMouseEnter={(e) => {
+                if (!isSubmitting) {
+                  (e.currentTarget as HTMLElement).style.background = colors.accentHover;
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isSubmitting) {
+                  (e.currentTarget as HTMLElement).style.background = colors.primary;
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                }
+              }}>
+              {isSubmitting ? (
+                <>
+                  <span className="ersa-spinner" /> Submitting...
+                </>
+              ) : (
+                "Send Inquiry"
+              )}
             </button>
           </form>
         </div>
