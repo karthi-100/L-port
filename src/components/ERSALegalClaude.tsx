@@ -7,38 +7,48 @@ import Icon4 from "../assets/Icon-4.svg";
 import Icon5 from "../assets/Icon-5.svg";
 import Icon6 from "../assets/Icon-6.svg";
 import IconArrow from "../assets/Icon-arrow.svg";
+import IconArrowSubmit from "../assets/icon-submit.svg";
+import IconBlueArrow from "../assets/icon-blue-arrow.svg";
+import IconGoldArrow from "../assets/icon-gold-arrow.svg";
 import IconHealthcare from "../assets/Icon-healthcare.svg";
 import IconLinkedIn from "../assets/icon-linkedin.svg";
 import IconX from "../assets/icon-X.svg";
 import IconFacebook from "../assets/icon-facebook.svg";
 import IconInstagram from "../assets/icon-instagram.svg";
 import IconYoutube from "../assets/icon-youtube.svg";
-// ─── Asset URLs from Figma ────────────────────────────────────────────────────
+import IconMail from "../assets/icon-mail.svg";
+import IconPhone from "../assets/icon-phone.svg";
+import IconLocation from "../assets/icon-location.svg";
+import IconSafe from "../assets/Icon-safe.svg";
+import IconDisclaimer from "../assets/icon-disclaimer-icon.svg";
+import IconMakePayment from "../assets/icon-make-payment.svg";
+import IconArrowDown from "../assets/icon-arrow-down.svg";
+
 const imgLogo = Logo;
 const imgLawLibrary = "https://www.figma.com/api/mcp/asset/c2b10731-bb51-46b3-8fbd-88ac05c619d1";
 const imgPortrait = "https://www.figma.com/api/mcp/asset/def6b30f-438c-48d5-a045-6adc1333b41c";
 const imgIconDispute = Icon1;
-const imgArrowBtn = "https://www.figma.com/api/mcp/asset/d7b51346-062a-481c-8270-0fda2f0b563b";
+const imgArrowBtn = IconBlueArrow;
 const imgIconCorporate = Icon2;
 const imgIconIntl = Icon3;
 const imgIconCustoms = Icon4;
 const imgIconIP = Icon5;
 const imgIconRealEstate = Icon6;
 const imgIconHealthcare = IconHealthcare;
-const imgArrowHealthcareGold = "https://www.figma.com/api/mcp/asset/571ebf0b-0e44-4f9f-aa6b-6ecd3d879fd7";
-const imgSelectArrow = IconArrow;
-const imgArrowSubmit = "https://www.figma.com/api/mcp/asset/fbbfb89f-56b2-4771-a003-54b6f01c1b98";
-const imgIconDisclaimerLabel = "https://www.figma.com/api/mcp/asset/0490fcc5-e5db-46af-99e7-91638066b9c7";
-const imgIconPayment = "https://www.figma.com/api/mcp/asset/3e94b5bf-86ab-4b82-86ca-eed128e22c38";
-const imgArrowPayment = "https://www.figma.com/api/mcp/asset/b933d281-5ebd-499a-8f13-06c2db6d38ad";
+const imgArrowHealthcareGold = IconGoldArrow;
+const imgSelectArrow = IconArrowDown;
+const imgArrowSubmit = IconArrowSubmit;
+const imgIconDisclaimerLabel = IconDisclaimer;
+const imgIconPayment = IconSafe;
+const imgArrowPayment = IconMakePayment;
 const imgSocialLinkedIn = IconLinkedIn;
 const imgSocialTwitter = IconX;
 const imgSocialFacebook = IconFacebook;
 const imgSocialInstagram = IconInstagram;
 const imgSocialYoutube = IconYoutube;
-const imgFooterPhone = "https://www.figma.com/api/mcp/asset/29625f42-142d-43b7-b795-1758af6e6b66";
-const imgFooterAddress = "https://www.figma.com/api/mcp/asset/0d9cd6ae-e3ce-47b8-a1e0-377993283ec0";
-const imgFooterEmail = "https://www.figma.com/api/mcp/asset/34d99181-64e8-472a-a753-21a39a17ccba";
+const imgFooterPhone = IconPhone;
+const imgFooterAddress = IconLocation;
+const imgFooterEmail = IconMail;
 
 // ─── Responsive CSS ───────────────────────────────────────────────────────────
 const GLOBAL_CSS = `
@@ -46,6 +56,7 @@ const GLOBAL_CSS = `
 
   *, *::before, *::after { box-sizing: border-box; }
   body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   input::placeholder, textarea::placeholder { color: #6b7280; }
   img { display: block; max-width: 100%; height: auto; }
 
@@ -212,10 +223,10 @@ const GLOBAL_CSS = `
     .ersa-payment-h2 { font-size: 32px !important; line-height: 36px !important; }
     .ersa-payment-p { font-size: 16px !important; line-height: 26px !important; margin-left: auto; margin-right: auto; }
 
-    .ersa-footer { padding: 36px 20px 0; text-align: center !important; }
-    .ersa-footer-grid { grid-template-columns: 1fr; gap: 24px; justify-items: center; }
-    .ersa-footer-grid > div { align-items: center !important; }
-    .ersa-footer-grid > div > div { justify-content: center !important; }
+    .ersa-footer { padding: 36px 20px 0; text-align: left !important; }
+    .ersa-footer-grid { grid-template-columns: 1fr; gap: 32px; justify-items: start; }
+    .ersa-footer-grid > div { align-items: flex-start !important; }
+    .ersa-footer-grid > div > div { justify-content: flex-start !important; }
     .ersa-footer-spacer { display: none; }
   }
 
@@ -303,7 +314,7 @@ function useIntersectionObserver(options: IntersectionObserverInit = {}): [React
 // ─── NavBar ───────────────────────────────────────────────────────────────────
 const NavBar: React.FC = memo(() => {
   const [open, setOpen] = useState(false);
-  
+
   const handleMenuClose = () => setOpen(false);
   const handleMenuToggle = () => setOpen(prev => !prev);
 
@@ -320,23 +331,27 @@ const NavBar: React.FC = memo(() => {
         </div>
 
         <nav className="ersa-nav-links">
-          {["About", "Practice Areas", "Experience"].map(l => (
-            <a key={l} href="#" style={{
+          {[
+            { l: "About", id: "about" },
+            { l: "Practice Areas", id: "practice" },
+            { l: "Experience", id: "about" }
+          ].map(({ l, id }) => (
+            <a key={l} href={`#${id}`} style={{
               fontFamily: "'Newsreader', Georgia, serif", fontSize: 18, color: "#475569",
               textDecoration: "none", letterSpacing: "-0.45px", whiteSpace: "nowrap",
               transition: "color 0.2s",
             }} onMouseEnter={(e) => (e.currentTarget.style.color = "#00113a")}
-               onMouseLeave={(e) => (e.currentTarget.style.color = "#475569")}>{l}</a>
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#475569")}>{l}</a>
           ))}
         </nav>
 
-        <button className="ersa-nav-cta" style={{
+        <button className="ersa-nav-cta" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} style={{
           background: "#00113a", color: "#fff", border: "none", cursor: "pointer",
           padding: "10px 24px", fontFamily: "'Manrope', sans-serif",
           fontSize: 14, letterSpacing: "1.4px", textTransform: "uppercase", whiteSpace: "nowrap",
           transition: "background 0.2s",
         }} onMouseEnter={(e) => (e.currentTarget.style.background = "#001a4d")}
-           onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>Book Consultation</button>
+          onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>Book Consultation</button>
 
         <button className="ersa-hamburger" onClick={handleMenuToggle} aria-label="Menu" aria-expanded={open}>
           {[0, 1, 2].map(i => (
@@ -354,16 +369,20 @@ const NavBar: React.FC = memo(() => {
       </header>
 
       <div className={`ersa-mobile-menu${open ? " open" : ""}`}>
-        {["About", "Practice Areas", "Experience"].map(l => (
-          <a key={l} href="#" onClick={handleMenuClose} style={{
+        {[
+          { l: "About", id: "about" },
+          { l: "Practice Areas", id: "practice" },
+          { l: "Experience", id: "about" }
+        ].map(({ l, id }) => (
+          <a key={l} href={`#${id}`} onClick={handleMenuClose} style={{
             fontFamily: "'Newsreader', Georgia, serif",
             fontSize: 18, color: "#475569", textDecoration: "none",
             padding: "14px 0", borderBottom: "1px solid #eee",
             transition: "color 0.2s",
           }} onMouseEnter={(e) => (e.currentTarget.style.color = "#00113a")}
-             onMouseLeave={(e) => (e.currentTarget.style.color = "#475569")}>{l}</a>
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#475569")}>{l}</a>
         ))}
-        <button style={{
+        <button onClick={() => { handleMenuClose(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }} style={{
           marginTop: 16, background: "#00113a", color: "#fff", border: "none",
           cursor: "pointer", padding: "14px 24px",
           fontFamily: "'Manrope', sans-serif",
@@ -371,7 +390,7 @@ const NavBar: React.FC = memo(() => {
           transition: "background 0.2s",
           width: "100%",
         }} onMouseEnter={(e) => (e.currentTarget.style.background = "#001a4d")}
-           onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>Book Consultation</button>
+          onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>Book Consultation</button>
       </div>
     </>
   );
@@ -385,7 +404,7 @@ const HeroSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
 
   return (
-    <section ref={ref} className="ersa-hero">
+    <section id="hero" ref={ref} className="ersa-hero">
       {!mobile && (
         <div className={`ersa-hero-img-abs scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: "0.2s" }}>
           <img src={imgLawLibrary} alt="Law Library" loading="lazy"
@@ -424,14 +443,14 @@ const HeroSection: React.FC = memo(() => {
         ))}
 
         <div className="ersa-hero-btns" style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
-          <button style={{
+          <button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} style={{
             background: "#00113a", color: "#fff", border: "none", cursor: "pointer",
             padding: "17px 32px", fontFamily: "'Manrope', sans-serif",
             fontSize: 14, letterSpacing: "1.4px", textTransform: "uppercase",
             transition: "background 0.2s",
           }} onMouseEnter={(e) => (e.currentTarget.style.background = "#001a4d")}
-             onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>Book Consultation</button>
-          <button style={{
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>Book Consultation</button>
+          <button onClick={() => document.getElementById('practice')?.scrollIntoView({ behavior: 'smooth' })} style={{
             background: "transparent", color: "#00113a", border: "1px solid #c5c6d2",
             cursor: "pointer", padding: "17px 33px", fontFamily: "'Manrope', sans-serif",
             fontSize: 14, letterSpacing: "1.4px", textTransform: "uppercase",
@@ -440,10 +459,10 @@ const HeroSection: React.FC = memo(() => {
             e.currentTarget.style.borderColor = "#00113a";
             e.currentTarget.style.background = "rgba(0,17,58,0.05)";
           }}
-             onMouseLeave={(e) => {
-               e.currentTarget.style.borderColor = "#c5c6d2";
-               e.currentTarget.style.background = "transparent";
-             }}>View Services</button>
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "#c5c6d2";
+              e.currentTarget.style.background = "transparent";
+            }}>View Services</button>
         </div>
       </div>
     </section>
@@ -453,52 +472,52 @@ HeroSection.displayName = "HeroSection";
 
 // ─── Practice Areas ───────────────────────────────────────────────────────────
 const practiceCards = [
-  { icon: imgIconDispute, title: "Dispute Resolution & Litigation",    desc: "Representation in civil, commercial, writ, and arbitration matters before the High Courts and other forums, including complex disputes." },
-  { icon: imgIconCorporate, title: "Corporate & Commercial Advisory",    desc: "Advising on contracts, business arrangements, structuring, and legal risk across commercial operations." },
-  { icon: imgIconIntl, title: "International & Cross-Border",       desc: "Advising clients on legal and regulatory issues involving India and international jurisdictions, including structuring and compliance." },
-  { icon: imgIconCustoms, title: "Customs and Taxation",               desc: "Advisory and disputes relating to Customs, Central Excise, GST, taxation matters, and foreign trade compliance." },
-  { icon: imgIconIP, title: "Intellectual Property",              desc: "Intellectual property matters across patents, trademarks, and copyrights, including registration, enforcement, and disputes." },
-  { icon: imgIconRealEstate, title: "Real Estate",                        desc: "Advising on property transactions, due diligence, development arrangements, succession planning, and estate matters." },
+  { icon: imgIconDispute, title: "Dispute Resolution & Litigation", desc: "Representation in civil, commercial, writ, and arbitration matters before the High Courts and other forums, including complex disputes." },
+  { icon: imgIconCorporate, title: "Corporate & Commercial Advisory", desc: "Advising on contracts, business arrangements, structuring, and legal risk across commercial operations." },
+  { icon: imgIconIntl, title: "International & Cross-Border", desc: "Advising clients on legal and regulatory issues involving India and international jurisdictions, including structuring and compliance." },
+  { icon: imgIconCustoms, title: "Customs and Taxation", desc: "Advisory and disputes relating to Customs, Central Excise, GST, taxation matters, and foreign trade compliance." },
+  { icon: imgIconIP, title: "Intellectual Property", desc: "Intellectual property matters across patents, trademarks, and copyrights, including registration, enforcement, and disputes." },
+  { icon: imgIconRealEstate, title: "Real Estate", desc: "Advising on property transactions, due diligence, development arrangements, succession planning, and estate matters." },
 ];
 
 const PracticeAreasSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
   return (
-  <section ref={ref} className="ersa-practice-section">
-    <p className={`scroll-animate ${visible ? "visible" : ""}`} style={{ textAlign: "left", fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "1.6px", textTransform: "uppercase", margin: "0 0 8px" }}>Our Expertise</p>
-    <h2 className={`ersa-practice-h2 scroll-animate ${visible ? "visible" : ""}`} style={{ textAlign: "left", fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 48px", transitionDelay: "0.1s" }}>Strategic Practice Areas</h2>
+    <section id="practice" ref={ref} className="ersa-practice-section">
+      <p className={`scroll-animate ${visible ? "visible" : ""}`} style={{ textAlign: "left", fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "1.6px", textTransform: "uppercase", margin: "0 0 8px" }}>Our Expertise</p>
+      <h2 className={`ersa-practice-h2 scroll-animate ${visible ? "visible" : ""}`} style={{ textAlign: "left", fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 48px", transitionDelay: "0.1s" }}>Strategic Practice Areas</h2>
 
-    <div className="ersa-practice-grid">
-      {practiceCards.map(({ icon, title, desc }, index) => (
-        <div key={index} className={`ersa-practice-card scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: `${0.15 + index * 0.1}s`, textAlign: "left" }}>
+      <div className="ersa-practice-grid">
+        {practiceCards.map(({ icon, title, desc }, index) => (
+          <div key={index} className={`ersa-practice-card scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: `${0.15 + index * 0.1}s`, textAlign: "left" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingBottom: 8 }}>
+              <img src={icon} alt="" loading="lazy" style={{ height: 28, width: "auto" }} />
+            </div>
+            <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 24, color: "#00113a", lineHeight: "32px", margin: 0, textAlign: "left" }}>{title}</h3>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", lineHeight: "22.75px", margin: 0, flexGrow: 1 }}>{desc}</p>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
+              <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 10, color: "#00113a", letterSpacing: "1px", textTransform: "uppercase" }}>Explore Service</span>
+              <img src={imgArrowBtn} alt="" loading="lazy" style={{ width: 9, height: 9 }} />
+            </div>
+          </div>
+        ))}
+
+        <div className={`ersa-practice-wide scroll-animate ${visible ? "visible" : ""}`} style={{ background: "#00113a", padding: 40, display: "flex", flexDirection: "column", gap: 12, position: "relative", overflow: "hidden", transition: "transform 0.3s, opacity 0.8s cubic-bezier(0.25,0.8,0.25,1), transform 0.8s cubic-bezier(0.25,0.8,0.25,1)", transitionDelay: "0.7s" }}>
+          <img src={imgIconHealthcare} alt="" loading="lazy" style={{ position: "absolute", bottom: -37, right: -37, width: 203, height: 197, opacity: 0.1 }} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingBottom: 8 }}>
-            <img src={icon} alt="" loading="lazy" style={{ height: 28, width: "auto" }} />
+            <img src={imgIconHealthcare} alt="" loading="lazy" style={{ height: 28, width: "auto" }} />
           </div>
-          <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 24, color: "#00113a", lineHeight: "32px", margin: 0, textAlign: "left" }}>{title}</h3>
-          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", lineHeight: "22.75px", margin: 0, flexGrow: 1 }}>{desc}</p>
+          <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 30, color: "#fff", lineHeight: "36px", margin: 0 }}>Healthcare, Life Sciences &amp; Food Regulation</h3>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "rgba(255,255,255,0.8)", lineHeight: "26px", margin: 0, maxWidth: 672 }}>
+            Advising on biomedical laws, healthcare arrangements, food and drug compliance, and related regulatory matters in evolving markets.
+          </p>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
-            <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 10, color: "#00113a", letterSpacing: "1px", textTransform: "uppercase" }}>Explore Service</span>
-            <img src={imgArrowBtn} alt="" loading="lazy" style={{ width: 9, height: 9 }} />
+            <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 12, color: "#ffdea5", letterSpacing: "1.2px", textTransform: "uppercase" }}>View Regulatory Frameworks</span>
+            <img src={imgArrowHealthcareGold} alt="" loading="lazy" style={{ width: 9, height: 9 }} />
           </div>
-        </div>
-      ))}
-
-      <div className={`ersa-practice-wide scroll-animate ${visible ? "visible" : ""}`} style={{ background: "#00113a", padding: 40, display: "flex", flexDirection: "column", gap: 12, position: "relative", overflow: "hidden", transition: "transform 0.3s, opacity 0.8s cubic-bezier(0.25,0.8,0.25,1), transform 0.8s cubic-bezier(0.25,0.8,0.25,1)", transitionDelay: "0.7s" }}>
-        <img src={imgIconHealthcare} alt="" loading="lazy" style={{ position: "absolute", bottom: -37, right: -37, width: 203, height: 197, opacity: 0.1 }} />
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingBottom: 8 }}>
-          <img src={imgIconHealthcare} alt="" loading="lazy" style={{ height: 28, width: "auto" }} />
-        </div>
-        <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 30, color: "#fff", lineHeight: "36px", margin: 0 }}>Healthcare, Life Sciences &amp; Food Regulation</h3>
-        <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "rgba(255,255,255,0.8)", lineHeight: "26px", margin: 0, maxWidth: 672 }}>
-          Advising on biomedical laws, healthcare arrangements, food and drug compliance, and related regulatory matters in evolving markets.
-        </p>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
-          <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 12, color: "#ffdea5", letterSpacing: "1.2px", textTransform: "uppercase" }}>View Regulatory Frameworks</span>
-          <img src={imgArrowHealthcareGold} alt="" loading="lazy" style={{ width: 9, height: 9 }} />
         </div>
       </div>
-    </div>
-  </section>
+    </section>
   );
 });
 PracticeAreasSection.displayName = "PracticeAreasSection";
@@ -507,29 +526,29 @@ PracticeAreasSection.displayName = "PracticeAreasSection";
 const AboutSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
   return (
-  <section ref={ref} className="ersa-about-section">
-    <div className="ersa-about-grid">
-      <div className={`scroll-animate ${visible ? "visible" : ""}`}>
-        <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "3.2px", textTransform: "uppercase", margin: "0 0 32px" }}>Premier Legal Counsel</p>
-        <h2 className="ersa-about-h2" style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 60, color: "#00113a", letterSpacing: "-1.5px", lineHeight: "60px", margin: "0 0 8px" }}>Vidyesh V.</h2>
-        <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#775a19", letterSpacing: "1.4px", textTransform: "uppercase", margin: "0 0 40px" }}>LL.B., LL.M. (Hons., USA) Advocate</p>
-        {[
-          "Vidyesh V. is an advocate practicing before the High Court of Madras and other courts and tribunals, with a practice primarily across South India. His work includes civil, commercial, and regulatory matters, as well as cross-border and customs-related issues.",
-          "He advises individuals, businesses, and overseas clients on navigating legal and regulatory frameworks in India, and has developed a practice addressing disputes, regulatory exposure, and commercial issues across sectors.",
-          "He holds an LL.M. (Hons.) from the University of Illinois Urbana-Champaign (USA) and has been recognized with CALI Excellence for the Future Awards.",
-          "The practice reflects a longstanding association with the legal profession, with continued engagement in litigation across generations.",
-        ].map((p, i) => (
-          <p key={i} className="ersa-about-p" style={{ fontFamily: "'Manrope', sans-serif", fontSize: 18, color: "#444650", lineHeight: "29.25px", margin: "0 0 24px" }}>{p}</p>
-        ))}
-      </div>
+    <section id="about" ref={ref} className="ersa-about-section">
+      <div className="ersa-about-grid">
+        <div className={`scroll-animate ${visible ? "visible" : ""}`}>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "3.2px", textTransform: "uppercase", margin: "0 0 32px" }}>Premier Legal Counsel</p>
+          <h2 className="ersa-about-h2" style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 60, color: "#00113a", letterSpacing: "-1.5px", lineHeight: "60px", margin: "0 0 8px" }}>Vidyesh V.</h2>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#775a19", letterSpacing: "1.4px", textTransform: "uppercase", margin: "0 0 40px" }}>LL.B., LL.M. (Hons., USA) Advocate</p>
+          {[
+            "Vidyesh V. is an advocate practicing before the High Court of Madras and other courts and tribunals, with a practice primarily across South India. His work includes civil, commercial, and regulatory matters, as well as cross-border and customs-related issues.",
+            "He advises individuals, businesses, and overseas clients on navigating legal and regulatory frameworks in India, and has developed a practice addressing disputes, regulatory exposure, and commercial issues across sectors.",
+            "He holds an LL.M. (Hons.) from the University of Illinois Urbana-Champaign (USA) and has been recognized with CALI Excellence for the Future Awards.",
+            "The practice reflects a longstanding association with the legal profession, with continued engagement in litigation across generations.",
+          ].map((p, i) => (
+            <p key={i} className="ersa-about-p" style={{ fontFamily: "'Manrope', sans-serif", fontSize: 18, color: "#444650", lineHeight: "29.25px", margin: "0 0 24px" }}>{p}</p>
+          ))}
+        </div>
 
-      <div className={`ersa-portrait scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: "0.2s" }}>
-        <div style={{ position: "absolute", bottom: -32, left: -32, width: 192, height: 192, background: "#ffdea5", borderRadius: "50%", filter: "blur(32px)", opacity: 0.2, zIndex: 0 }} />
-        <img src={imgPortrait} alt="Vidyesh V." loading="lazy" style={{ position: "relative", zIndex: 1, width: "100%", height: "100%", objectFit: "cover" }} />
-        <div style={{ position: "absolute", inset: 0, background: "rgba(0,17,58,0.03)", mixBlendMode: "multiply", zIndex: 2 }} />
+        <div className={`ersa-portrait scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: "0.2s" }}>
+          <div style={{ position: "absolute", bottom: -32, left: -32, width: 192, height: 192, background: "#ffdea5", borderRadius: "50%", filter: "blur(32px)", opacity: 0.2, zIndex: 0 }} />
+          <img src={imgPortrait} alt="Vidyesh V." loading="lazy" style={{ position: "relative", zIndex: 1, width: "100%", height: "100%", objectFit: "cover" }} />
+          <div style={{ position: "absolute", inset: 0, background: "rgba(0,17,58,0.03)", mixBlendMode: "multiply", zIndex: 2 }} />
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   );
 });
 AboutSection.displayName = "AboutSection";
@@ -562,7 +581,7 @@ const ContactSection: React.FC = memo(() => {
     textAlign: "left",
   };
   return (
-    <section ref={ref} className="ersa-contact-section">
+    <section id="contact" ref={ref} className="ersa-contact-section">
       <div className={`scroll-animate ${visible ? "visible" : ""}`} style={{ textAlign: "center", marginBottom: 48 }}>
         <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "3.2px", textTransform: "uppercase", margin: "0 0 8px" }}>Direct Communication</p>
         <h2 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 16px" }}>Inquiry &amp; Consultation</h2>
@@ -582,7 +601,7 @@ const ContactSection: React.FC = memo(() => {
             <div style={{ position: "relative" }}>
               <select style={{ ...input, appearance: "none", paddingRight: 40, cursor: "pointer" }}>
                 <option>Select an option</option>
-                {["Dispute Resolution & Litigation","Corporate & Commercial Advisory","International & Cross-Border","Customs and Taxation","Intellectual Property","Real Estate","Healthcare, Life Sciences & Food Regulation"].map(o => <option key={o}>{o}</option>)}
+                {["Dispute Resolution & Litigation", "Corporate & Commercial Advisory", "International & Cross-Border", "Customs and Taxation", "Intellectual Property", "Real Estate", "Healthcare, Life Sciences & Food Regulation"].map(o => <option key={o}>{o}</option>)}
               </select>
               <img src={imgSelectArrow} alt="" loading="lazy" style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", width: 24, pointerEvents: "none" }} />
             </div>
@@ -595,17 +614,17 @@ const ContactSection: React.FC = memo(() => {
           </div>
 
           <div className="ersa-form-full" style={{ paddingTop: 24 }}>
-            <button 
+            <button
               onClick={handleSubmit}
               disabled={isSubmitting}
               style={{
-              background: "#00113a", color: "#fff", border: "none", cursor: isSubmitting ? "not-allowed" : "pointer",
-              padding: "16px 48px", fontFamily: "'Manrope', sans-serif",
-              fontSize: 14, letterSpacing: "2.8px", textTransform: "uppercase",
-              display: "flex", alignItems: "center", gap: 12, opacity: isSubmitting ? 0.8 : 1,
-              transition: "background 0.2s, transform 0.1s",
-            }} onMouseEnter={(e) => { if (!isSubmitting) e.currentTarget.style.background = "#001a4d"; }}
-               onMouseLeave={(e) => { if (!isSubmitting) e.currentTarget.style.background = "#00113a"; }}>
+                background: "#00113a", color: "#fff", border: "none", cursor: isSubmitting ? "not-allowed" : "pointer",
+                padding: "16px 48px", fontFamily: "'Manrope', sans-serif",
+                fontSize: 14, letterSpacing: "2.8px", textTransform: "uppercase",
+                display: "flex", alignItems: "center", gap: 12, opacity: isSubmitting ? 0.8 : 1,
+                transition: "background 0.2s, transform 0.1s",
+              }} onMouseEnter={(e) => { if (!isSubmitting) e.currentTarget.style.background = "#001a4d"; }}
+              onMouseLeave={(e) => { if (!isSubmitting) e.currentTarget.style.background = "#00113a"; }}>
               {isSubmitting ? (
                 <>
                   <span className="ersa-spinner" /> Submitting...
@@ -622,41 +641,41 @@ const ContactSection: React.FC = memo(() => {
       </div>
     </section>
   );
-});ContactSection.displayName = "ContactSection";
+}); ContactSection.displayName = "ContactSection";
 // ─── Disclaimer ───────────────────────────────────────────────────────────────
 const DisclaimerSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
   return (
-  <section ref={ref} className={`ersa-disclaimer-section scroll-animate ${visible ? "visible" : ""}`}>
-    <img 
-      src={imgIconDispute} 
-      alt="" 
-      loading="lazy" 
-      style={{ 
-        position: "absolute", 
-        right: "15%", 
-        top: "50%", 
-        transform: "translateY(-50%)", 
-        height: "85%", 
-        width: "auto", 
-        opacity: 0.04, 
-        zIndex: 0,
-        pointerEvents: "none"
-      }} 
-    />
-    <div style={{ maxWidth: 768, position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, opacity: 0.8, justifyContent: "flex-start" }}>
-        <img src={imgIconDisclaimerLabel} alt="" loading="lazy" style={{ width: 15, height: 16 }} />
-        <span style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 20, color: "#00113a", fontStyle: "italic", textAlign: "left" }}>Disclaimer</span>
+    <section id="disclaimer" ref={ref} className={`ersa-disclaimer-section scroll-animate ${visible ? "visible" : ""}`}>
+      <img
+        src={imgIconDispute}
+        alt=""
+        loading="lazy"
+        style={{
+          position: "absolute",
+          right: "15%",
+          top: "50%",
+          transform: "translateY(-50%)",
+          height: "85%",
+          width: "auto",
+          opacity: 0.04,
+          zIndex: 0,
+          pointerEvents: "none"
+        }}
+      />
+      <div style={{ maxWidth: 768, position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, opacity: 0.8, justifyContent: "flex-start" }}>
+          <img src={imgIconDisclaimerLabel} alt="" loading="lazy" style={{ width: 15, height: 16 }} />
+          <span style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 20, color: "#00113a", fontStyle: "italic", textAlign: "left" }}>Disclaimer</span>
+        </div>
+        <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", lineHeight: "20px", margin: 0, textAlign: "left" }}>
+          As per the rules of the Bar Council of India, advocates are not permitted to solicit work or advertise.
+          This website is provided for informational purposes only and does not constitute legal advice.
+          By accessing this website, you acknowledge that you are seeking information about ERSA Legal of your own
+          accord and that no solicitation or advertisement has been made.
+        </p>
       </div>
-      <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", lineHeight: "20px", margin: 0, textAlign: "left" }}>
-        As per the rules of the Bar Council of India, advocates are not permitted to solicit work or advertise.
-        This website is provided for informational purposes only and does not constitute legal advice.
-        By accessing this website, you acknowledge that you are seeking information about ERSA Legal of your own
-        accord and that no solicitation or advertisement has been made.
-      </p>
-    </div>
-  </section>
+    </section>
   );
 });
 DisclaimerSection.displayName = "DisclaimerSection";
@@ -665,42 +684,42 @@ DisclaimerSection.displayName = "DisclaimerSection";
 const PaymentSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
   return (
-  <section ref={ref} className="ersa-payment-section">
-    <div className="ersa-payment-grid">
-      <div className={`scroll-animate ${visible ? "visible" : ""}`}>
-        <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "3.2px", textTransform: "uppercase", margin: "0 0 16px" }}>Financial Services</p>
-        <h2 className="ersa-payment-h2" style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 24px" }}>Professional Fee Settlement</h2>
-        <p className="ersa-payment-p" style={{ fontFamily: "'Manrope', sans-serif", fontSize: 18, color: "#444650", lineHeight: "29.25px", maxWidth: 485, margin: "0 0 32px" }}>
-          Access our secure payment portal for the streamlined settlement of professional fees and retainers.
-          We provide a range of sophisticated payment options to ensure convenience and security for our global clientele.
-        </p>
-        <button style={{
-          background: "#00113a", color: "#fff", border: "none", cursor: "pointer",
-          padding: "16px 40px", fontFamily: "'Manrope', sans-serif",
-          fontSize: 14, letterSpacing: "1.4px", textTransform: "uppercase",
-          display: "flex", alignItems: "center", gap: 12,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-          transition: "background 0.2s, transform 0.1s",
-        }} onMouseEnter={(e) => (e.currentTarget.style.background = "#001a4d")}
-           onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>
-          Make Payment <img src={imgArrowPayment} alt="" loading="lazy" style={{ width: 17, height: 12 }} />
-        </button>
-      </div>
-      <div className={`scroll-animate ${visible ? "visible" : ""}`} style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "relative", minHeight: 254, transitionDelay: "0.2s" }}>
-        <div style={{ position: "absolute", inset: 0, background: "rgba(119,90,25,0.04)", borderRadius: 12, filter: "blur(20px)" }} />
-        <div style={{
-          background: "#fff", border: "1px solid rgba(197,198,210,0.2)",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
-          padding: 49, display: "flex", flexDirection: "column", alignItems: "center",
-          position: "relative", width: "min(321px, 100%)",
-        }}>
-          <img src={imgIconPayment} alt="" loading="lazy" style={{ width: 42, height: 54, marginBottom: 24 }} />
-          <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 24, color: "#00113a", textAlign: "center", lineHeight: "32px", margin: "0 0 8px" }}>Secure Transactions</h3>
-          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", textAlign: "center", lineHeight: "20px", margin: 0 }}>Encrypted &amp; Compliant Processing</p>
+    <section id="payment" ref={ref} className="ersa-payment-section">
+      <div className="ersa-payment-grid">
+        <div className={`scroll-animate ${visible ? "visible" : ""}`}>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "3.2px", textTransform: "uppercase", margin: "0 0 16px" }}>Financial Services</p>
+          <h2 className="ersa-payment-h2" style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 24px" }}>Professional Fee Settlement</h2>
+          <p className="ersa-payment-p" style={{ fontFamily: "'Manrope', sans-serif", fontSize: 18, color: "#444650", lineHeight: "29.25px", maxWidth: 485, margin: "0 0 32px" }}>
+            Access our secure payment portal for the streamlined settlement of professional fees and retainers.
+            We provide a range of sophisticated payment options to ensure convenience and security for our global clientele.
+          </p>
+          <button onClick={() => document.getElementById('payment')?.scrollIntoView({ behavior: 'smooth' })} style={{
+            background: "#00113a", color: "#fff", border: "none", cursor: "pointer",
+            padding: "16px 40px", fontFamily: "'Manrope', sans-serif",
+            fontSize: 14, letterSpacing: "1.4px", textTransform: "uppercase",
+            display: "flex", alignItems: "center", gap: 12,
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            transition: "background 0.2s, transform 0.1s",
+          }} onMouseEnter={(e) => (e.currentTarget.style.background = "#001a4d")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>
+            Make Payment <img src={imgArrowPayment} alt="" loading="lazy" style={{ width: 17, height: 12 }} />
+          </button>
+        </div>
+        <div className={`scroll-animate ${visible ? "visible" : ""}`} style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "relative", minHeight: 254, transitionDelay: "0.2s" }}>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(119,90,25,0.04)", borderRadius: 12, filter: "blur(20px)" }} />
+          <div style={{
+            background: "#fff", border: "1px solid rgba(197,198,210,0.2)",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+            padding: 49, display: "flex", flexDirection: "column", alignItems: "center",
+            position: "relative", width: "min(321px, 100%)",
+          }}>
+            <img src={imgIconPayment} alt="" loading="lazy" style={{ width: 42, height: 54, marginBottom: 24 }} />
+            <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 24, color: "#00113a", textAlign: "center", lineHeight: "32px", margin: "0 0 8px" }}>Secure Transactions</h3>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", textAlign: "center", lineHeight: "20px", margin: 0 }}>Encrypted &amp; Compliant Processing</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
   );
 });
 PaymentSection.displayName = "PaymentSection";
@@ -709,53 +728,57 @@ PaymentSection.displayName = "PaymentSection";
 const Footer: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
   return (
-  <footer ref={ref} className={`ersa-footer scroll-animate ${visible ? "visible" : ""}`}>
-    <div className="ersa-footer-grid">
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <div style={{ background: "#fff", borderRadius: 7, width: 108, height: 65, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-          <img src={imgLogo} alt="ERSA Legal" loading="lazy" style={{ width: 92, height: 62, objectFit: "contain", mixBlendMode: "darken" }} />
+    <footer ref={ref} className={`ersa-footer scroll-animate ${visible ? "visible" : ""}`}>
+      <div className="ersa-footer-grid">
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+          <div style={{ background: "#fff", borderRadius: 7, width: 108, height: 65, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+            <img src={imgLogo} alt="ERSA Legal" loading="lazy" style={{ width: 92, height: 62, objectFit: "contain", mixBlendMode: "darken" }} />
+          </div>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: 0 }}>Visit us</p>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
+            {[imgSocialLinkedIn, imgSocialTwitter, imgSocialFacebook, imgSocialInstagram, imgSocialYoutube].map((s, i) => (
+              <img key={i} src={s} alt="" loading="lazy" style={{ width: 33, height: 33, cursor: "pointer", transition: "transform 0.2s", opacity: 0.8 }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")} />
+            ))}
+          </div>
         </div>
-        <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: 0 }}>Visit us</p>
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          {[imgSocialLinkedIn, imgSocialTwitter, imgSocialFacebook, imgSocialInstagram, imgSocialYoutube].map((s, i) => (
-            <img key={i} src={s} alt="" loading="lazy" style={{ width: 33, height: 33, cursor: "pointer", transition: "transform 0.2s", opacity: 0.8 }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")} />
-          ))}
+
+        <div className="ersa-footer-spacer" />
+
+        <div>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Home</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {[
+              { l: "About", id: "about" },
+              { l: "Practice Areas", id: "practice" },
+              { l: "Experience", id: "about" }
+            ].map(({ l, id }) => (
+              <a key={l} href={`#${id}`} style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#fff", textDecoration: "none", lineHeight: "24px", transition: "opacity 0.2s", opacity: 0.8 }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}>{l}</a>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Contact</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {[
+              { icon: imgFooterPhone, text: "+91 00000 00000" },
+              { icon: imgFooterAddress, text: "Chennai, Tamil Nadu, India" },
+              { icon: imgFooterEmail, text: "contact@ersalegal.com" },
+            ].map(({ icon, text }) => (
+              <div key={text} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                <img src={icon} alt="" loading="lazy" style={{ width: 16, height: 16, marginTop: 3, flexShrink: 0 }} />
+                <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", lineHeight: "24px" }}>{text}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="ersa-footer-spacer" />
-
-      <div>
-        <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Home</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {["About", "Practice Areas", "Experience"].map(l => (
-            <a key={l} href="#" style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#fff", textDecoration: "none", lineHeight: "24px", transition: "opacity 0.2s", opacity: 0.8 }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}>{l}</a>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Contact</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {[
-            { icon: imgFooterPhone,   text: "+91 00000 00000" },
-            { icon: imgFooterAddress, text: "Chennai, Tamil Nadu, India" },
-            { icon: imgFooterEmail,   text: "contact@ersalegal.com" },
-          ].map(({ icon, text }) => (
-            <div key={text} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <img src={icon} alt="" loading="lazy" style={{ width: 16, height: 16, marginTop: 3, flexShrink: 0 }} />
-              <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", lineHeight: "24px" }}>{text}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-
-    <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", margin: "0 0 0" }} />
-    <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", textAlign: "center", padding: "20px 0", margin: 0 }}>
-      © 2025 ERSA Legal. All rights reserved.
-    </p>
-  </footer>
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", margin: "0 0 0" }} />
+      <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", textAlign: "center", padding: "20px 0", margin: 0 }}>
+        © 2025 ERSA Legal. All rights reserved.
+      </p>
+    </footer>
   );
 });
 Footer.displayName = "Footer";
