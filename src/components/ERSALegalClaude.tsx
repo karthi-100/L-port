@@ -23,6 +23,8 @@ import IconSafe from "../assets/Icon-safe.svg";
 import IconDisclaimer from "../assets/icon-disclaimer-icon.svg";
 import IconMakePayment from "../assets/icon-make-payment.svg";
 import IconArrowDown from "../assets/icon-arrow-down.svg";
+import { ExpertiseModal, type ExpertiseDetails } from "./ExpertiseModal";
+
 
 const imgLogo = Logo;
 const imgLawLibrary = "https://www.figma.com/api/mcp/asset/c2b10731-bb51-46b3-8fbd-88ac05c619d1";
@@ -472,24 +474,127 @@ HeroSection.displayName = "HeroSection";
 
 // ─── Practice Areas ───────────────────────────────────────────────────────────
 const practiceCards = [
-  { icon: imgIconDispute, title: "Dispute Resolution & Litigation", desc: "Representation in civil, commercial, writ, and arbitration matters before the High Courts and other forums, including complex disputes." },
-  { icon: imgIconCorporate, title: "Corporate & Commercial Advisory", desc: "Advising on contracts, business arrangements, structuring, and legal risk across commercial operations." },
-  { icon: imgIconIntl, title: "International & Cross-Border", desc: "Advising clients on legal and regulatory issues involving India and international jurisdictions, including structuring and compliance." },
-  { icon: imgIconCustoms, title: "Customs and Taxation", desc: "Advisory and disputes relating to Customs, Central Excise, GST, taxation matters, and foreign trade compliance." },
-  { icon: imgIconIP, title: "Intellectual Property", desc: "Intellectual property matters across patents, trademarks, and copyrights, including registration, enforcement, and disputes." },
-  { icon: imgIconRealEstate, title: "Real Estate", desc: "Advising on property transactions, due diligence, development arrangements, succession planning, and estate matters." },
+  { 
+    icon: imgIconDispute, 
+    title: "Dispute Resolution & Litigation", 
+    desc: "Representation in civil, commercial, writ, and arbitration matters before the High Courts and other forums, including complex disputes.",
+    details: {
+      fullDesc: "Providing comprehensive representation in complex legal disputes before diverse judicial and quasi-judicial forums. Our approach combines meticulous legal research with strategic advocacy to protect client interests across civil, commercial, and writ matters.",
+      scopeOfWork: [
+        "Civil & Commercial Litigation",
+        "High Court & Trial Court Representation",
+        "Arbitration (Domestic & International)",
+        "Writ Petitions & Constitutional Matters",
+        "Debt Recovery & Insolvency Proceedings",
+        "Mediation & Settlement Negotiations"
+      ]
+    }
+  },
+  { 
+    icon: imgIconCorporate, 
+    title: "Corporate & Commercial Advisory", 
+    desc: "Advising on contracts, business arrangements, structuring, and legal risk across commercial operations.",
+    details: {
+      fullDesc: "Advising businesses on critical legal frameworks to ensure operational continuity and risk mitigation. We handle the intricacies of corporate governance, business structuring, and commercial contractual obligations with a focus on long-term scalability.",
+      scopeOfWork: [
+        "Business Entity Formation & Structuring",
+        "Corporate Governance & Compliance",
+        "Joint Ventures & Strategic Alliances",
+        "Contractual Drafting & Negotiations",
+        "Mergers & Acquisitions Support",
+        "Employment Law & Policy Frameworks"
+      ]
+    }
+  },
+  { 
+    icon: imgIconIntl, 
+    title: "International & Cross-Border", 
+    desc: "Advising clients on legal and regulatory issues involving India and international jurisdictions, including structuring and compliance.",
+    details: {
+      fullDesc: "Navigating the complexities of multi-jurisdictional legal environments. We assist foreign entities entering the Indian market and Indian businesses expanding globally, ensuring compliance with international treaties and local regulations.",
+      scopeOfWork: [
+        "Cross-Border Contractual Advisory",
+        "Foreign Direct Investment (FDI) Compliance",
+        "Multi-jurisdictional Dispute Management",
+        "Inbound & Outbound Investment Support",
+        "International Trade Agreements",
+        "Liaison with Regulatory Authorities"
+      ]
+    }
+  },
+  { 
+    icon: imgIconCustoms, 
+    title: "Customs and Taxation", 
+    desc: "Advisory and disputes relating to Customs, Central Excise, GST, taxation matters, and foreign trade compliance.",
+    details: {
+      fullDesc: "Strategic advisory on indirect taxation and foreign trade policies. We help clients navigate the evolving landscape of GST, Customs, and Central Excise while managing compliance and representing them in tax-related disputes.",
+      scopeOfWork: [
+        "Customs Duty & Tariff Advisory",
+        "Foreign Trade Policy (FTP) Advisory",
+        "Tax Litigation & Appeals",
+        "GST Compliance & Strategy",
+        "Export-Import (EXIM) Documentation",
+        "SEZ & EOU Regulatory Compliance"
+      ]
+    }
+  },
+  { 
+    icon: imgIconIP, 
+    title: "Intellectual Property", 
+    desc: "Intellectual property matters across patents, trademarks, and copyrights, including registration, enforcement, and disputes.",
+    details: {
+      fullDesc: "Protecting and leveraging intellectual assets in a competitive global economy. From registration to enforcement, we provide end-to-end IP services designed to safeguard your innovations and brand identity.",
+      scopeOfWork: [
+        "Trademark Registration & Prosecution",
+        "Copyright Protection & Licensing",
+        "IP Litigation & Anti-counterfeiting",
+        "Patent Filing & Strategy",
+        "IP Portfolio Management",
+        "Technology Transfer Agreements"
+      ]
+    }
+  },
+  { 
+    icon: imgIconRealEstate, 
+    title: "Real Estate", 
+    desc: "Advising on property transactions, due diligence, development arrangements, succession planning, and estate matters.",
+    details: {
+      fullDesc: "Providing legal clarity for complex property transactions and private wealth management. We offer rigorous due diligence and succession planning services for both corporate entities and high-net-worth individuals.",
+      scopeOfWork: [
+        "Property Due Diligence & Title Searches",
+        "Development & Lease Agreements",
+        "Will Drafting & Probate Services",
+        "Real Estate Transaction Advisory",
+        "Succession Planning & Estate Matters",
+        "Family Settlement & Trust Advisory"
+      ]
+    }
+  },
 ];
+
+const healthcareDetails = {
+  fullDesc: "Navigating the specialized regulatory environments of healthcare and life sciences. We advise on compliance with biomedical laws, drug regulations, and food safety standards to ensure market readiness and operational legality.",
+  scopeOfWork: [
+    "Biomedical & Clinical Trial Regulations",
+    "Healthcare Service Agreements",
+    "Product Liability & Risk Mitigation",
+    "Drug & Cosmetic Act Compliance",
+    "FSSAI Regulatory Advisory",
+    "Tele-medicine & Digital Health Compliance"
+  ]
+};
 
 const PracticeAreasSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
+  const [selectedExpertise, setSelectedExpertise] = useState<ExpertiseDetails | null>(null);
   return (
     <section id="practice" ref={ref} className="ersa-practice-section">
       <p className={`scroll-animate ${visible ? "visible" : ""}`} style={{ textAlign: "left", fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "1.6px", textTransform: "uppercase", margin: "0 0 8px" }}>Our Expertise</p>
       <h2 className={`ersa-practice-h2 scroll-animate ${visible ? "visible" : ""}`} style={{ textAlign: "left", fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 48px", transitionDelay: "0.1s" }}>Strategic Practice Areas</h2>
 
       <div className="ersa-practice-grid">
-        {practiceCards.map(({ icon, title, desc }, index) => (
-          <div key={index} className={`ersa-practice-card scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: `${0.15 + index * 0.1}s`, textAlign: "left" }}>
+        {practiceCards.map(({ icon, title, desc, details }, index) => (
+          <div key={index} className={`ersa-practice-card scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: `${0.15 + index * 0.1}s`, textAlign: "left", cursor: "pointer" }} onClick={() => setSelectedExpertise({ icon, title, ...details })}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingBottom: 8 }}>
               <img src={icon} alt="" loading="lazy" style={{ height: 28, width: "auto" }} />
             </div>
@@ -502,7 +607,7 @@ const PracticeAreasSection: React.FC = memo(() => {
           </div>
         ))}
 
-        <div className={`ersa-practice-wide scroll-animate ${visible ? "visible" : ""}`} style={{ background: "#00113a", padding: 40, display: "flex", flexDirection: "column", gap: 12, position: "relative", overflow: "hidden", transition: "transform 0.3s, opacity 0.8s cubic-bezier(0.25,0.8,0.25,1), transform 0.8s cubic-bezier(0.25,0.8,0.25,1)", transitionDelay: "0.7s" }}>
+        <div className={`ersa-practice-wide scroll-animate ${visible ? "visible" : ""}`} style={{ background: "#00113a", padding: 40, display: "flex", flexDirection: "column", gap: 12, position: "relative", overflow: "hidden", cursor: "pointer", transition: "transform 0.3s, opacity 0.8s cubic-bezier(0.25,0.8,0.25,1), transform 0.8s cubic-bezier(0.25,0.8,0.25,1)", transitionDelay: "0.7s" }} onClick={() => setSelectedExpertise({ icon: imgIconHealthcare, title: "Healthcare, Life Sciences & Food Regulation", ...healthcareDetails })}>
           <img src={imgIconHealthcare} alt="" loading="lazy" style={{ position: "absolute", bottom: -37, right: -37, width: 203, height: 197, opacity: 0.1 }} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingBottom: 8 }}>
             <img src={imgIconHealthcare} alt="" loading="lazy" style={{ height: 28, width: "auto" }} />
@@ -517,6 +622,8 @@ const PracticeAreasSection: React.FC = memo(() => {
           </div>
         </div>
       </div>
+
+      <ExpertiseModal isOpen={!!selectedExpertise} onClose={() => setSelectedExpertise(null)} data={selectedExpertise} />
     </section>
   );
 });
@@ -786,7 +893,7 @@ Footer.displayName = "Footer";
 // ─── Root ─────────────────────────────────────────────────────────────────────
 const ERSALegalClaude: React.FC = () => {
   return (
-    <div style={{ width: "100%", overflowX: "hidden" }}>
+    <div style={{ width: "100%", overflowX: "clip" }}>
       <style>{GLOBAL_CSS}</style>
       <NavBar />
       <div style={{ paddingTop: 84 }}>
