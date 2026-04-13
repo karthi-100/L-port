@@ -44,10 +44,6 @@ const imgIconDisclaimerLabel = IconDisclaimer;
 const imgIconPayment = IconSafe;
 const imgArrowPayment = IconMakePayment;
 const imgSocialLinkedIn = IconLinkedIn;
-const imgSocialTwitter = IconX;
-const imgSocialFacebook = IconFacebook;
-const imgSocialInstagram = IconInstagram;
-const imgSocialYoutube = IconYoutube;
 const imgFooterPhone = IconPhone;
 const imgFooterAddress = IconLocation;
 const imgFooterEmail = IconMail;
@@ -57,12 +53,37 @@ const GLOBAL_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;600;700&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; }
-  body { margin: 0; padding: 0; }
+  body { margin: 0; padding: 0; overflow-x: hidden; }
   html { scroll-behavior: smooth; }
   input::placeholder, textarea::placeholder { color: #6b7280; }
   img { display: block; max-width: 100%; height: auto; }
 
-  /* ── Animations ── */
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
+  ::-webkit-scrollbar-track { background: #f1f1f1; }
+  ::-webkit-scrollbar-thumb { background: #888; border-radius: 6px; }
+  ::-webkit-scrollbar-thumb:hover { background: #555; }
+  
+  /* Firefox Scrollbar */
+  * { scrollbar-color: #888 #f1f1f1; scrollbar-width: thin; }
+
+  /* Accessibility - Reduce Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Focus Styles for Accessibility */
+  a:focus, button:focus, input:focus, textarea:focus, select:focus {
+    outline: 2px solid #00113a;
+    outline-offset: 2px;
+  }
+
+  /* Animations ── */
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
@@ -406,7 +427,7 @@ const HeroSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
 
   return (
-    <section id="hero" ref={ref} className="ersa-hero">
+    <section id="hero" ref={ref} className="ersa-hero" style={{ paddingTop: 84 }}>
       {!mobile && (
         <div className={`ersa-hero-img-abs scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: "0.2s" }}>
           <img src={imgLawLibrary} alt="Law Library" loading="lazy"
@@ -843,7 +864,7 @@ const Footer: React.FC = memo(() => {
           </div>
           <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: 0 }}>Visit us</p>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
-            {[imgSocialLinkedIn, imgSocialTwitter, imgSocialFacebook, imgSocialInstagram, imgSocialYoutube].map((s, i) => (
+            {[imgSocialLinkedIn].map((s, i) => (
               <img key={i} src={s} alt="" loading="lazy" style={{ width: 33, height: 33, cursor: "pointer", transition: "transform 0.2s", opacity: 0.8 }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")} />
             ))}
           </div>
@@ -883,7 +904,7 @@ const Footer: React.FC = memo(() => {
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", margin: "0 0 0" }} />
       <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", textAlign: "center", padding: "20px 0", margin: 0 }}>
-        © 2025 ERSA Legal. All rights reserved.
+        © 2026 ERSA Legal. All rights reserved.
       </p>
     </footer>
   );
@@ -893,10 +914,10 @@ Footer.displayName = "Footer";
 // ─── Root ─────────────────────────────────────────────────────────────────────
 const ERSALegalClaude: React.FC = () => {
   return (
-    <div style={{ width: "100%", overflowX: "clip" }}>
+    <div style={{ width: "100%" }}>
       <style>{GLOBAL_CSS}</style>
       <NavBar />
-      <div style={{ paddingTop: 84 }}>
+      <div>
         <HeroSection />
         <PracticeAreasSection />
         <AboutSection />
