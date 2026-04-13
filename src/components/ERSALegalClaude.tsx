@@ -114,7 +114,7 @@ const GLOBAL_CSS = `
   .ersa-mobile-menu.open { display: flex; }
 
   /* ── Hero ── */
-  .ersa-hero { position: relative; overflow: hidden; background: #fff; }
+  .ersa-hero { position: relative; overflow: hidden; background: #fff; width: 100%; }
   .ersa-hero-img-abs {
     position: absolute; top: 140px; right: 47px;
     width: min(542px, 40%); height: 659px;
@@ -167,6 +167,7 @@ const GLOBAL_CSS = `
      MEDIUM TABLET  ≤ 1024px
   ════════════ */
   @media (max-width: 1024px) {
+    .ersa-hero { padding-top: 84px; }
     .ersa-hero-img-abs { width: 36%; height: 480px; top: 110px; right: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
     .ersa-hero-text { padding: 110px 40% 80px 40px; }
 
@@ -189,6 +190,7 @@ const GLOBAL_CSS = `
   ════════════ */
   @media (max-width: 900px) {
     .ersa-nav { padding: 0 16px; }
+    .ersa-hero { padding-top: 84px; }
     .ersa-hero-text { padding: 90px 35% 60px 32px; }
     .ersa-hero-h1 { font-size: 54px !important; line-height: 62px !important; }
     .ersa-practice-grid { gap: 24px; }
@@ -205,7 +207,7 @@ const GLOBAL_CSS = `
     .ersa-nav-cta { display: none; }
     .ersa-hamburger { display: flex; }
 
-    .ersa-hero { min-height: auto; }
+    .ersa-hero { min-height: auto; padding-top: 84px; }
     .ersa-hero-img-abs { display: none; }
     .ersa-hero-text { padding: 32px 20px 48px; text-align: center !important; }
 
@@ -341,8 +343,8 @@ const NavBar: React.FC = memo(() => {
     <>
       <header className="ersa-nav" style={{
         position: "fixed", top: 0, left: 0, right: 0, height: 84,
-        backdropFilter: "blur(4px)", background: "rgba(248,250,252,0.92)",
-        boxShadow: "0 1px 2px rgba(0,0,0,0.05)", zIndex: 100, padding: "0 24px 0 16px",
+        backdropFilter: "blur(4px)", background: "rgba(248,250,252,0.95)",
+        zIndex: 100, padding: "0 24px 0 16px",
       }}>
         <div style={{ width: 92, height: 62, flexShrink: 0 }}>
           <img src={imgLogo} alt="ERSA Legal"
@@ -423,7 +425,7 @@ const HeroSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
 
   return (
-    <section id="hero" ref={ref} className="ersa-hero" style={{ paddingTop: 84 }}>
+    <section id="hero" ref={ref} className="ersa-hero">
       {!mobile && (
         <div className={`ersa-hero-img-abs scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: "0.2s" }}>
           <img src={imgLawLibrary} alt="Law Library" loading="lazy"
