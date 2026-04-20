@@ -23,7 +23,7 @@ class CreateOrderRequest(BaseModel):
     currency: str = Field(default="INR", description="Currency code")
     customer_email: EmailStr = Field(..., description="Customer email address")
     customer_name: str = Field(..., min_length=1, description="Customer name")
-    customer_phone: str = Field(..., regex=r"^\+?1?\d{9,15}$", description="Customer phone number")
+    customer_phone: str = Field(..., pattern=r"^\+?1?\d{9,15}$", description="Customer phone number")
     order_id: Optional[str] = Field(default=None, description="Your order ID (optional)")
     description: Optional[str] = Field(default=None, description="Order description")
     notes: Optional[Dict[str, Any]] = Field(default=None, description="Additional notes")

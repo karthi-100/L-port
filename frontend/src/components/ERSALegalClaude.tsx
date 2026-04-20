@@ -135,6 +135,7 @@ const GLOBAL_CSS = `
   .ersa-about-section { background: #f9f9fb; padding: 128px 104px; text-align: left !important; }
   .ersa-about-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; max-width: 1280px; margin: 0; }
   .ersa-portrait { width: 485px; height: 607px; flex-shrink: 0; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+  .ersa-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; }
 
   /* ── Form grid ── */
   .ersa-contact-section { background: #fff; padding: 80px 24px; }
@@ -179,6 +180,7 @@ const GLOBAL_CSS = `
     .ersa-about-section { padding: 80px 40px; }
     .ersa-about-grid { grid-template-columns: 1fr; gap: 32px; }
     .ersa-portrait { width: 100%; height: 480px; }
+    .ersa-portrait img { object-position: center 30%; }
 
     .ersa-payment-grid { grid-template-columns: 1fr; gap: 48px; }
 
@@ -226,8 +228,9 @@ const GLOBAL_CSS = `
     .ersa-practice-h2 { font-size: 32px !important; line-height: 36px !important; }
 
     .ersa-about-section { padding: 48px 20px; text-align: center !important; }
-    .ersa-about-grid { gap: 24px; justify-items: center !important; }
-    .ersa-portrait { height: 360px; box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+    .ersa-about-grid { display: flex; flex-direction: column-reverse; gap: 32px; align-items: center; }
+    .ersa-portrait { width: 100%; height: 360px; border-radius: 8px; box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+    .ersa-portrait img { object-position: center 20%; }
     .ersa-about-h2 { font-size: 40px !important; line-height: 44px !important; }
     .ersa-about-p { font-size: 16px !important; line-height: 26px !important; }
 
