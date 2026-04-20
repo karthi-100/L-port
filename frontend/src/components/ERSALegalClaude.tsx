@@ -20,6 +20,7 @@ import IconDisclaimer from "../assets/icon-disclaimer-icon.svg";
 import IconMakePayment from "../assets/icon-make-payment.svg";
 import IconArrowDown from "../assets/icon-arrow-down.svg";
 import { ExpertiseModal, type ExpertiseDetails } from "./ExpertiseModal";
+import { PaymentModal } from "./PaymentModal";
 import LawLibrary from "../assets/law-library.png"
 import AboutImage from "../assets/about-image.jpeg"
 
@@ -845,7 +846,10 @@ DisclaimerSection.displayName = "DisclaimerSection";
 
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-const Footer: React.FC = memo(() => {
+interface FooterProps {
+  onOpenPayment: () => void;
+}
+const Footer: React.FC<FooterProps> = memo(({ onOpenPayment }) => {
   const [ref, visible] = useIntersectionObserver();
   return (
     <footer ref={ref} className={`ersa-footer scroll-animate ${visible ? "visible" : ""}`}>
@@ -907,7 +911,7 @@ const Footer: React.FC = memo(() => {
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent";
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
-            }} onClick={() => alert('Payment portal coming soon.')}>
+            }} onClick={onOpenPayment}>
             Make Payment <img src={imgArrowPayment} alt="" loading="lazy" style={{ width: 17, height: 12 }} />
           </button>
         </div>
@@ -924,6 +928,8 @@ Footer.displayName = "Footer";
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 const ERSALegalClaude: React.FC = () => {
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
   return (
     <div style={{ width: "100%" }}>
       <style>{GLOBAL_CSS}</style>
@@ -934,8 +940,9 @@ const ERSALegalClaude: React.FC = () => {
         <AboutSection />
         <ContactSection />
         <DisclaimerSection />
-        <Footer />
+        <Footer onOpenPayment={() => setIsPaymentModalOpen(true)} />
       </div>
+      <PaymentModal isOpen={isPaymentModalOpen} onClose={() => setIsPaymentModalOpen(false)} />
     </div>
   );
 };
