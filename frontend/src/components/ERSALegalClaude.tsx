@@ -1,4 +1,5 @@
 import React, { useState, useEffect, memo } from "react";
+import emailjs from '@emailjs/browser';
 import Logo from "../assets/ERSALogo.svg";
 import Icon1 from "../assets/Icon-1.svg";
 import Icon2 from "../assets/Icon-2.svg";
@@ -15,16 +16,17 @@ import IconLinkedIn from "../assets/icon-linkedin.svg";
 import IconMail from "../assets/icon-mail.svg";
 import IconPhone from "../assets/icon-phone.svg";
 import IconLocation from "../assets/icon-location.svg";
-import IconSafe from "../assets/Icon-safe.svg";
 import IconDisclaimer from "../assets/icon-disclaimer-icon.svg";
 import IconMakePayment from "../assets/icon-make-payment.svg";
 import IconArrowDown from "../assets/icon-arrow-down.svg";
 import { ExpertiseModal, type ExpertiseDetails } from "./ExpertiseModal";
+import LawLibrary from "../assets/law-library.png"
+import AboutImage from "../assets/about-image.jpeg"
 
 
 const imgLogo = Logo;
-const imgLawLibrary = "https://www.figma.com/api/mcp/asset/c2b10731-bb51-46b3-8fbd-88ac05c619d1";
-const imgPortrait = "https://www.figma.com/api/mcp/asset/def6b30f-438c-48d5-a045-6adc1333b41c";
+const imgLawLibrary = LawLibrary;
+const imgPortrait = AboutImage;
 const imgIconDispute = Icon1;
 const imgArrowBtn = IconBlueArrow;
 const imgIconCorporate = Icon2;
@@ -37,7 +39,6 @@ const imgArrowHealthcareGold = IconGoldArrow;
 const imgSelectArrow = IconArrowDown;
 const imgArrowSubmit = IconArrowSubmit;
 const imgIconDisclaimerLabel = IconDisclaimer;
-const imgIconPayment = IconSafe;
 const imgArrowPayment = IconMakePayment;
 const imgSocialLinkedIn = IconLinkedIn;
 const imgFooterPhone = IconPhone;
@@ -636,7 +637,7 @@ const PracticeAreasSection: React.FC = memo(() => {
             Advising on biomedical laws, healthcare arrangements, food and drug compliance, and related regulatory matters in evolving markets.
           </p>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
-            <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 12, color: "#ffdea5", letterSpacing: "1.2px", textTransform: "uppercase" }}>View Regulatory Frameworks</span>
+            <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 12, color: "#ffdea5", letterSpacing: "1.2px", textTransform: "uppercase" }}>Explore Service</span>
             <img src={imgArrowHealthcareGold} alt="" loading="lazy" style={{ width: 9, height: 9 }} />
           </div>
         </div>
@@ -684,14 +685,47 @@ const ContactSection: React.FC = memo(() => {
   const [ref, visible] = useIntersectionObserver();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.MouseEvent) => {
+  // Controlled form state for EmailJS
+  const [fullName, setFullName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [locationField, setLocationField] = useState("");
+  const [emailField, setEmailField] = useState("");
+  const [practiceArea, setPracticeArea] = useState("");
+  const [messageField, setMessageField] = useState("");
+
+  const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      alert('Email service not configured. Set VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID and VITE_EMAILJS_PUBLIC_KEY in your env.');
+      return;
+    }
+
     setIsSubmitting(true);
-    setTimeout(() => {
+    try {
+      const templateParams = {
+        full_name: fullName,
+        mobile_number: mobile,
+        location: locationField,
+        email: emailField,
+        practice_area: practiceArea,
+        message: messageField,
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      alert('Enquiry submitted successfully!');
+      // clear form
+      setFullName(""); setMobile(""); setLocationField(""); setEmailField(""); setPracticeArea(""); setMessageField("");
+    } catch (err) {
+      console.error('EmailJS error', err);
+      alert('Failed to send enquiry. Please try again later.');
+    } finally {
       setIsSubmitting(false);
-      alert("Enquiry submitted successfully!");
-    }, 2000);
+    }
   };
 
   const input: React.CSSProperties = {
@@ -716,18 +750,18 @@ const ContactSection: React.FC = memo(() => {
         </p>
       </div>
       <div className={`ersa-form-card scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: "0.2s" }}>
-        <div className="ersa-form-grid">
-          <div><label style={lbl}>Full Name</label><input type="text" placeholder="Your full legal name" style={input} /></div>
-          <div><label style={lbl}>Mobile Number</label><input type="tel" placeholder="+91 00000 00000" style={input} /></div>
-          <div><label style={lbl}>Location</label><input type="text" placeholder="City, Country" style={input} /></div>
-          <div><label style={lbl}>Email ID</label><input type="email" placeholder="email@example.com" style={input} /></div>
+          <div className="ersa-form-grid">
+          <div><label style={lbl}>Full Name</label><input type="text" placeholder="Your full legal name" style={input} value={fullName} onChange={(e) => setFullName(e.target.value)} /></div>
+          <div><label style={lbl}>Mobile Number</label><input type="tel" placeholder="+91 00000 00000" style={input} value={mobile} onChange={(e) => setMobile(e.target.value)} /></div>
+          <div><label style={lbl}>Location</label><input type="text" placeholder="City, Country" style={input} value={locationField} onChange={(e) => setLocationField(e.target.value)} /></div>
+          <div><label style={lbl}>Email ID</label><input type="email" placeholder="email@example.com" style={input} value={emailField} onChange={(e) => setEmailField(e.target.value)} /></div>
 
           <div className="ersa-form-full">
             <label style={lbl}>Practice Area of Interest</label>
             <div style={{ position: "relative" }}>
-              <select style={{ ...input, appearance: "none", paddingRight: 40, cursor: "pointer" }}>
-                <option>Select an option</option>
-                {["Dispute Resolution & Litigation", "Corporate & Commercial Advisory", "International & Cross-Border", "Customs and Taxation", "Intellectual Property", "Real Estate", "Healthcare, Life Sciences & Food Regulation"].map(o => <option key={o}>{o}</option>)}
+              <select style={{ ...input, appearance: "none", paddingRight: 40, cursor: "pointer" }} value={practiceArea} onChange={(e) => setPracticeArea(e.target.value)}>
+                <option value="">Select an option</option>
+                {["Dispute Resolution & Litigation", "Corporate & Commercial Advisory", "International & Cross-Border", "Customs and Taxation", "Intellectual Property", "Real Estate", "Healthcare, Life Sciences & Food Regulation"].map(o => <option key={o} value={o}>{o}</option>)}
               </select>
               <img src={imgSelectArrow} alt="" loading="lazy" style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", width: 24, pointerEvents: "none" }} />
             </div>
@@ -736,7 +770,7 @@ const ContactSection: React.FC = memo(() => {
           <div className="ersa-form-full">
             <label style={lbl}>Message / Enquiry</label>
             <textarea placeholder="Describe the nature of your inquiry in detail..." rows={4}
-              style={{ ...input, resize: "none", paddingTop: 12, lineHeight: "24px" }} />
+              style={{ ...input, resize: "none", paddingTop: 12, lineHeight: "24px" }} value={messageField} onChange={(e) => setMessageField(e.target.value)} />
           </div>
 
           <div className="ersa-form-full" style={{ paddingTop: 24 }}>
@@ -806,49 +840,6 @@ const DisclaimerSection: React.FC = memo(() => {
 });
 DisclaimerSection.displayName = "DisclaimerSection";
 
-// ─── Payment ──────────────────────────────────────────────────────────────────
-const PaymentSection: React.FC = memo(() => {
-  const [ref, visible] = useIntersectionObserver();
-  return (
-    <section id="payment" ref={ref} className="ersa-payment-section">
-      <div className="ersa-payment-grid">
-        <div className={`scroll-animate ${visible ? "visible" : ""}`}>
-          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "3.2px", textTransform: "uppercase", margin: "0 0 16px" }}>Financial Services</p>
-          <h2 className="ersa-payment-h2" style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 24px" }}>Professional Fee Settlement</h2>
-          <p className="ersa-payment-p" style={{ fontFamily: "'Manrope', sans-serif", fontSize: 18, color: "#444650", lineHeight: "29.25px", maxWidth: 485, margin: "0 0 32px" }}>
-            Access our secure payment portal for the streamlined settlement of professional fees and retainers.
-            We provide a range of sophisticated payment options to ensure convenience and security for our global clientele.
-          </p>
-          <button onClick={() => document.getElementById('payment')?.scrollIntoView({ behavior: 'smooth' })} style={{
-            background: "#00113a", color: "#fff", border: "none", cursor: "pointer",
-            padding: "16px 40px", fontFamily: "'Manrope', sans-serif",
-            fontSize: 14, letterSpacing: "1.4px", textTransform: "uppercase",
-            display: "flex", alignItems: "center", gap: 12,
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            transition: "background 0.2s, transform 0.1s",
-          }} onMouseEnter={(e) => (e.currentTarget.style.background = "#001a4d")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#00113a")}>
-            Make Payment <img src={imgArrowPayment} alt="" loading="lazy" style={{ width: 17, height: 12 }} />
-          </button>
-        </div>
-        <div className={`scroll-animate ${visible ? "visible" : ""}`} style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "relative", minHeight: 254, transitionDelay: "0.2s" }}>
-          <div style={{ position: "absolute", inset: 0, background: "rgba(119,90,25,0.04)", borderRadius: 12, filter: "blur(20px)" }} />
-          <div style={{
-            background: "#fff", border: "1px solid rgba(197,198,210,0.2)",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
-            padding: 49, display: "flex", flexDirection: "column", alignItems: "center",
-            position: "relative", width: "min(321px, 100%)",
-          }}>
-            <img src={imgIconPayment} alt="" loading="lazy" style={{ width: 42, height: 54, marginBottom: 24 }} />
-            <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 24, color: "#00113a", textAlign: "center", lineHeight: "32px", margin: "0 0 8px" }}>Secure Transactions</h3>
-            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", textAlign: "center", lineHeight: "20px", margin: 0 }}>Encrypted &amp; Compliant Processing</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-});
-PaymentSection.displayName = "PaymentSection";
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 const Footer: React.FC = memo(() => {
@@ -862,9 +853,9 @@ const Footer: React.FC = memo(() => {
           </div>
           <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: 0 }}>Visit us</p>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
-            {[imgSocialLinkedIn].map((s, i) => (
-              <img key={i} src={s} alt="" loading="lazy" style={{ width: 33, height: 33, cursor: "pointer", transition: "transform 0.2s", opacity: 0.8 }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")} />
-            ))}
+            <a href="https://www.linkedin.com/in/vidyeshv?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" aria-label="Vidyesh V. LinkedIn" style={{ display: "inline-block" }}>
+              <img src={imgSocialLinkedIn} alt="LinkedIn" loading="lazy" style={{ width: 33, height: 33, cursor: "pointer", transition: "transform 0.2s", opacity: 0.8 }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")} />
+            </a>
           </div>
         </div>
 
@@ -897,6 +888,25 @@ const Footer: React.FC = memo(() => {
               </div>
             ))}
           </div>
+          <button style={{
+            marginTop: 24,
+            width: "100%", justifyContent: "center",
+            background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.5)", cursor: "pointer",
+            padding: "14px 24px", fontFamily: "'Manrope', sans-serif",
+            fontSize: 14, letterSpacing: "1.4px", textTransform: "uppercase",
+            display: "flex", alignItems: "center", gap: 12,
+            transition: "background 0.2s, border-color 0.2s",
+            borderRadius: 4,
+          }} onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+            e.currentTarget.style.borderColor = "#fff";
+          }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
+            }} onClick={() => alert('Payment portal coming soon.')}>
+            Make Payment <img src={imgArrowPayment} alt="" loading="lazy" style={{ width: 17, height: 12 }} />
+          </button>
         </div>
       </div>
 
@@ -921,7 +931,6 @@ const ERSALegalClaude: React.FC = () => {
         <AboutSection />
         <ContactSection />
         <DisclaimerSection />
-        <PaymentSection />
         <Footer />
       </div>
     </div>

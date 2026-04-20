@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: l-port-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      # Add your environment variables here or in .env file
+      # - RAZORPAY_KEY_ID=your_key
+      # - RAZORPAY_KEY_SECRET=your_secret
+      # - SMTP_EMAIL=your_email
+      # - SMTP_PASSWORD=your_password
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - l-port-network
+
+networks:
+  l-port-network:
+    driver: bridge

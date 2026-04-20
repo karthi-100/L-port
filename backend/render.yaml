@@ -1,0 +1,47 @@
+services:
+  # FastAPI Backend Service
+  - type: web
+    name: l-port-backend
+    environment: python
+    region: oregon
+    plan: free
+    
+    # Build settings
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    
+    # Runtime settings
+    pythonVersion: 3.11
+    
+    # Environment variables (set in Render Dashboard)
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: DEBUG
+        value: "False"
+      - key: LOG_LEVEL
+        value: INFO
+    
+    # Auto-deploy from GitHub
+    # Connect your GitHub repository in Render Dashboard
+    # Automatic deploys on push to main branch
+    autoDeployOnPush: true
+    
+    # Health check
+    healthCheckPath: /health
+    healthCheckInterval: 300  # Check every 5 minutes
+    
+    # Disk and memory (free tier)
+    disk:
+      name: cache
+      mountPath: /var/cache
+      sizeGB: 1
+
+# Cron jobs (optional)
+# crons:
+#   - id: cleanup-old-logs
+#     schedule: "0 2 * * *"  # 2 AM daily
+#     service:
+#       type: web
+#       name: l-port-backend
+#       command: python scripts/cleanup.py
