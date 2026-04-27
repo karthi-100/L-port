@@ -21,6 +21,7 @@ import IconMakePayment from "../assets/icon-make-payment.svg";
 import IconArrowDown from "../assets/icon-arrow-down.svg";
 import { ExpertiseModal, type ExpertiseDetails } from "./ExpertiseModal";
 import { PaymentModal } from "./PaymentModal";
+import { TermsModal } from "./TermsModal";
 import LawLibrary from "../assets/law-library.png"
 import AboutImage from "../assets/about-image.jpeg"
 
@@ -848,13 +849,14 @@ DisclaimerSection.displayName = "DisclaimerSection";
 // ─── Footer ───────────────────────────────────────────────────────────────────
 interface FooterProps {
   onOpenPayment: () => void;
+  onOpenTerms: () => void;
 }
-const Footer: React.FC<FooterProps> = memo(({ onOpenPayment }) => {
+const Footer: React.FC<FooterProps> = memo(({ onOpenPayment, onOpenTerms }) => {
   const [ref, visible] = useIntersectionObserver();
   return (
     <footer ref={ref} className={`ersa-footer scroll-animate ${visible ? "visible" : ""}`}>
       <div className="ersa-footer-grid">
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+        <div className="ersa-footer-logo-col" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
           <div style={{ background: "#fff", borderRadius: 7, width: 108, height: 65, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
             <img src={imgLogo} alt="ERSA Legal" loading="lazy" style={{ width: 92, height: 62, objectFit: "contain", mixBlendMode: "darken" }} />
           </div>
@@ -918,9 +920,23 @@ const Footer: React.FC<FooterProps> = memo(({ onOpenPayment }) => {
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", margin: "0 0 0" }} />
-      <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", textAlign: "center", padding: "20px 0", margin: 0 }}>
-        © 2026 ERSA Legal. All rights reserved.
-      </p>
+      <div className="ersa-footer-bottom" style={{ padding: "20px 0", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <button 
+          onClick={onOpenTerms}
+          style={{ 
+            background: "none", border: "none", cursor: "pointer", 
+            fontFamily: "'Manrope', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.7)", 
+            textDecoration: "underline", marginBottom: "12px", transition: "color 0.2s", padding: 0
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = "#fff"}
+          onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
+        >
+          Terms and Conditions
+        </button>
+        <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", margin: 0 }}>
+          © 2026 ERSA Legal. All rights reserved.
+        </p>
+      </div>
     </footer>
   );
 });
@@ -929,6 +945,7 @@ Footer.displayName = "Footer";
 // ─── Root ─────────────────────────────────────────────────────────────────────
 const ERSALegalClaude: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
 
   return (
     <div style={{ width: "100%" }}>
@@ -940,9 +957,13 @@ const ERSALegalClaude: React.FC = () => {
         <AboutSection />
         <ContactSection />
         <DisclaimerSection />
-        <Footer onOpenPayment={() => setIsPaymentModalOpen(true)} />
+        <Footer 
+          onOpenPayment={() => setIsPaymentModalOpen(true)} 
+          onOpenTerms={() => setIsTermsModalOpen(true)}
+        />
       </div>
       <PaymentModal isOpen={isPaymentModalOpen} onClose={() => setIsPaymentModalOpen(false)} />
+      <TermsModal isOpen={isTermsModalOpen} onClose={() => setIsTermsModalOpen(false)} />
     </div>
   );
 };
