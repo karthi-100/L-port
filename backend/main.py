@@ -44,7 +44,6 @@ app = FastAPI(
 # Configure CORS
 origins = [
     settings.FRONTEND_URL,
-    settings.BACKEND_URL,
     "http://localhost:3000",
     "http://localhost:5173",
     "http://127.0.0.1:3000",
