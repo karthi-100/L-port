@@ -10,7 +10,7 @@ from contextlib import asynccontextmanager
 import logging
 
 from config import settings
-from routes import payment_router, mail_router
+from routes import payment_router
 from utils import setup_logger
 
 # Configure logging
@@ -33,7 +33,7 @@ async def lifespan(app: FastAPI):
 # Create FastAPI app instance
 app = FastAPI(
     title=settings.APP_NAME,
-    description="Production-ready API for Razorpay payment integration and email sending",
+    description="Production-ready API for Razorpay payment integration",
     version=settings.APP_VERSION,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -104,14 +104,13 @@ async def health_check():
 async def root():
     """Root endpoint with API information."""
     return {
-        "message": "Welcome to Payment & Email API",
+        "message": "Welcome to Payment API",
         "app": settings.APP_NAME,
         "version": settings.APP_VERSION,
         "docs": "/docs",
         "openapi": "/openapi.json",
         "endpoints": {
             "payment": "/payment",
-            "mail": "/mail",
             "health": "/health"
         }
     }
@@ -119,8 +118,6 @@ async def root():
 
 # Include routers
 app.include_router(payment_router)
-app.include_router(mail_router)
-
 
 # Logging middleware for request tracking
 @app.middleware("http")

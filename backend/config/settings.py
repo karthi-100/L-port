@@ -15,7 +15,7 @@ class Settings:
     """Application settings."""
 
     # Application
-    APP_NAME: str = "Payment & Email API"
+    APP_NAME: str = "Payment API"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
     
@@ -28,19 +28,9 @@ class Settings:
     RAZORPAY_KEY_SECRET: str = os.getenv("RAZORPAY_KEY_SECRET", "")
     RAZORPAY_WEBHOOK_SECRET: str = os.getenv("RAZORPAY_WEBHOOK_SECRET", "")
     
-    # SMTP Configuration (Gmail)
-    SMTP_EMAIL: str = os.getenv("SMTP_EMAIL", "")
-    SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")  # Gmail App Password
-    SMTP_SERVER: str = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
-    SENDER_NAME: str = os.getenv("SENDER_NAME", "L-Port Support")
-    
     # Frontend URL for CORS
     FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:5173")
     BACKEND_URL: str = os.getenv("BACKEND_URL", "http://localhost:8000")
-    
-    # Email Configuration
-    SUPPORT_EMAIL: str = os.getenv("SUPPORT_EMAIL", "support@l-port.com")
     
     # Logging
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
@@ -57,8 +47,6 @@ class Settings:
         required_for_production = [
             ("RAZORPAY_KEY_ID", self.RAZORPAY_KEY_ID),
             ("RAZORPAY_KEY_SECRET", self.RAZORPAY_KEY_SECRET),
-            ("SMTP_EMAIL", self.SMTP_EMAIL),
-            ("SMTP_PASSWORD", self.SMTP_PASSWORD),
         ]
         
         if not self.DEBUG:

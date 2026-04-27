@@ -60,8 +60,6 @@ echo.
 echo 1. Edit your .env file with credentials:
 echo    - RAZORPAY_KEY_ID
 echo    - RAZORPAY_KEY_SECRET
-echo    - SMTP_EMAIL
-echo    - SMTP_PASSWORD
 echo.
 echo 2. Run the development server:
 echo    uvicorn main:app --reload --host 0.0.0.0 --port 8000

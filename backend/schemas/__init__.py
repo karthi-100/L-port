@@ -85,49 +85,7 @@ class PaymentStatusResponse(BaseModel):
     description: Optional[str] = None
 
 
-# ======================== Email Schemas ========================
 
-class SendSuccessEmailRequest(BaseModel):
-    """Request schema for sending payment success email."""
-    recipient_email: EmailStr
-    recipient_name: str
-    order_id: str
-    payment_id: str
-    amount: float
-    currency: str = "INR"
-    transaction_date: Optional[str] = None
-
-
-class SendFailureEmailRequest(BaseModel):
-    """Request schema for sending payment failure email."""
-    recipient_email: EmailStr
-    recipient_name: str
-    order_id: str
-    reason: Optional[str] = None
-    amount: Optional[float] = None
-
-
-class SendInvoiceEmailRequest(BaseModel):
-    """Request schema for sending invoice email."""
-    recipient_email: EmailStr
-    recipient_name: str
-    invoice_id: str
-    order_id: str
-    amount: float
-    currency: str = "INR"
-    items: Optional[list] = None
-    transaction_date: Optional[str] = None
-    payment_method: Optional[str] = None
-
-
-class EmailResponse(BaseModel):
-    """Response schema for email operations."""
-    status: str = "success"
-    message: str
-    email_id: Optional[str] = None
-
-
-# ======================== Error Response ========================
 
 class ErrorResponse(BaseModel):
     """Standard error response schema."""

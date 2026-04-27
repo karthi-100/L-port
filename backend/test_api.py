@@ -55,34 +55,6 @@ class TestPaymentAPI:
         assert response.status_code == 422  # Validation error
 
 
-class TestEmailAPI:
-    """Email API endpoint tests."""
-    
-    def test_send_success_email_valid(self):
-        """Test sending success email with valid data."""
-        payload = {
-            "recipient_email": "test@example.com",
-            "recipient_name": "John Doe",
-            "order_id": "ORDER_123",
-            "payment_id": "pay_123",
-            "amount": 500.00
-        }
-        response = client.post("/mail/send-success", json=payload)
-        # Will fail if email credentials not configured, but structure is correct
-        if response.status_code != 500:  # If not server error from SMTP
-            assert response.json()["status"] in ["success", "error"]
-    
-    def test_send_failure_email_valid(self):
-        """Test sending failure email with valid data."""
-        payload = {
-            "recipient_email": "test@example.com",
-            "recipient_name": "John Doe",
-            "order_id": "ORDER_123"
-        }
-        response = client.post("/mail/send-failure", json=payload)
-        if response.status_code != 500:
-            assert response.json()["status"] in ["success", "error"]
-
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
