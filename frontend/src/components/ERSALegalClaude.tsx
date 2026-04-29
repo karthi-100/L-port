@@ -889,36 +889,6 @@ const DisclaimerBanner: React.FC = memo(() => {
       {/* Buttons */}
       <div className="ersa-disclaimer-banner-btns">
         <button
-          id="ersa-disclaimer-reject"
-          onClick={() => handleConsent(false)}
-          style={{
-            background: "transparent",
-            color: "rgba(255,255,255,0.75)",
-            border: "1px solid rgba(255,255,255,0.35)",
-            cursor: "pointer",
-            padding: "10px 24px",
-            fontFamily: "'Manrope', sans-serif",
-            fontSize: 13,
-            letterSpacing: "1.2px",
-            textTransform: "uppercase",
-            borderRadius: 3,
-            transition: "all 0.2s",
-            whiteSpace: "nowrap",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-            e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)";
-            e.currentTarget.style.color = "#fff";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "transparent";
-            e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)";
-            e.currentTarget.style.color = "rgba(255,255,255,0.75)";
-          }}
-        >
-          Reject
-        </button>
-        <button
           id="ersa-disclaimer-accept"
           onClick={() => handleConsent(true)}
           style={{
