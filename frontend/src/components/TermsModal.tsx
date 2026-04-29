@@ -16,6 +16,7 @@ const h4Style: React.CSSProperties = {
   letterSpacing: "1px",
   textTransform: "uppercase",
   fontWeight: 700,
+  textAlign: "left",
 };
 
 const pStyle: React.CSSProperties = {
@@ -59,6 +60,7 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose, initial
     fontWeight: 600,
     borderBottom: "2px solid transparent",
     background: "transparent",
+    textDecoration: "none",
   };
 
   const activeTabStyle: React.CSSProperties = {
@@ -115,7 +117,7 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose, initial
           </h3>
 
           {/* Tab Bar */}
-          <div style={{ display: "flex", gap: 0, borderBottom: "1px solid #e5e4e7" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 0, borderBottom: "1px solid #e5e4e7" }}>
             <button
               style={activeTab === "terms" ? activeTabStyle : inactiveTabStyle}
               onClick={() => setActiveTab("terms")}
@@ -135,7 +137,7 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose, initial
         <div style={{
           overflowY: "auto", padding: "28px 40px 32px",
           fontFamily: "'Manrope', sans-serif", fontSize: "15px", color: "#444650",
-          lineHeight: "26px", flex: 1,
+          lineHeight: "26px", flex: 1, textAlign: "left",
         }}>
 
           {/* ── Terms of Use ── */}
