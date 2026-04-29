@@ -149,8 +149,33 @@ const GLOBAL_CSS = `
   .ersa-payment-section { background: #fff; border-top: 1px solid rgba(197,198,210,0.1); padding: 97px 104px 96px; text-align: left; }
   .ersa-payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 1392px; margin: 0; }
 
-  /* ── Disclaimer ── */
-  .ersa-disclaimer-section { background: #f3f3f5; border-top: 1px solid rgba(197,198,210,0.1); padding: 65px 104px 64px; position: relative; overflow: hidden; text-align: left !important; }
+  /* ── Disclaimer Banner ── */
+  .ersa-disclaimer-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+    background: #00113a;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+    padding: 20px 40px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    animation: slideUpBanner 0.4s cubic-bezier(0.25,0.8,0.25,1);
+  }
+  @keyframes slideUpBanner {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);   opacity: 1; }
+  }
+  .ersa-disclaimer-banner-btns { display: flex; gap: 12px; flex-shrink: 0; }
+  .ersa-disclaimer-icon { display: inline-block; }
+  @media (max-width: 768px) {
+    .ersa-disclaimer-banner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px 20px;
+    }
+    .ersa-disclaimer-icon { display: none; }
+    .ersa-disclaimer-banner > div:first-child { align-items: center; justify-content: center; }
+    .ersa-disclaimer-banner-btns { width: 100%; justify-content: center; }
+    .ersa-disclaimer-banner-btns button { flex: 1; }
+  }
 
   /* ── Footer ── */
   .ersa-footer { background: #00113a; padding: 44px 152px 0; overflow: hidden; }
@@ -164,7 +189,6 @@ const GLOBAL_CSS = `
     .ersa-practice-section { padding: 100px 120px; text-align: left; }
     .ersa-about-section { padding: 140px 120px; }
     .ersa-payment-section { padding: 97px 120px 96px; }
-    .ersa-disclaimer-section { padding: 65px 120px 64px; }
   }
 
   /* ════════════
@@ -241,8 +265,7 @@ const GLOBAL_CSS = `
     .ersa-form-grid { grid-template-columns: 1fr; gap: 20px; }
     .ersa-form-full { grid-column: 1; }
 
-    .ersa-disclaimer-section { padding: 36px 20px; text-align: left !important; }
-    .ersa-disclaimer-section > div > div:first-child { justify-content: flex-start !important; }
+    .ersa-disclaimer-banner { padding: 16px 20px; }
 
     .ersa-payment-section { padding: 48px 20px; text-align: center !important; }
     .ersa-payment-grid { gap: 32px; justify-items: center; }
@@ -807,51 +830,135 @@ const ContactSection: React.FC = memo(() => {
     </section>
   );
 }); ContactSection.displayName = "ContactSection";
-// ─── Disclaimer ───────────────────────────────────────────────────────────────
-const DisclaimerSection: React.FC = memo(() => {
-  const [ref, visible] = useIntersectionObserver();
+// ─── Disclaimer Banner (cookie-style) ────────────────────────────────────────
+const DISCLAIMER_KEY = "ersa_disclaimer_consent";
+
+const DisclaimerBanner: React.FC = memo(() => {
+  const [visible, setVisible] = useState<boolean>(() => {
+    try {
+      return !localStorage.getItem(DISCLAIMER_KEY);
+    } catch {
+      return true;
+    }
+  });
+
+  const handleConsent = (accepted: boolean) => {
+    try {
+      localStorage.setItem(DISCLAIMER_KEY, accepted ? "accepted" : "rejected");
+    } catch { /* ignore */ }
+    setVisible(false);
+  };
+
+  if (!visible) return null;
+
   return (
-    <section id="disclaimer" ref={ref} className={`ersa-disclaimer-section scroll-animate ${visible ? "visible" : ""}`}>
-      <img
-        src={imgIconDispute}
-        alt=""
-        loading="lazy"
-        style={{
-          position: "absolute",
-          right: "15%",
-          top: "50%",
-          transform: "translateY(-50%)",
-          height: "85%",
-          width: "auto",
-          opacity: 0.04,
-          zIndex: 0,
-          pointerEvents: "none"
-        }}
-      />
-      <div style={{ maxWidth: 768, position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, opacity: 0.8, justifyContent: "flex-start" }}>
-          <img src={imgIconDisclaimerLabel} alt="" loading="lazy" style={{ width: 15, height: 16 }} />
-          <span style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 20, color: "#00113a", fontStyle: "italic", textAlign: "left" }}>Disclaimer</span>
+    <div className="ersa-disclaimer-banner" role="dialog" aria-modal="true" aria-label="Disclaimer">
+      {/* Icon + text */}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 12, flex: 1, minWidth: 0 }}>
+        <img
+          src={imgIconDisclaimerLabel}
+          alt=""
+          loading="lazy"
+          className="ersa-disclaimer-icon"
+          style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, opacity: 0.7 }}
+        />
+        <div>
+          <p style={{
+            fontFamily: "'Newsreader', Georgia, serif",
+            fontSize: 14,
+            fontStyle: "italic",
+            color: "rgba(255,255,255,0.65)",
+            margin: "0 0 4px",
+            letterSpacing: "0.3px",
+          }}>Disclaimer</p>
+          <p style={{
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: 13,
+            color: "rgba(255,255,255,0.85)",
+            lineHeight: "20px",
+            margin: 0,
+          }}>
+            As per the rules of the Bar Council of India, advocates are not permitted to solicit work or advertise.
+            This website is provided for informational purposes only and does not constitute legal advice.
+            By accessing this website, you acknowledge that you are seeking information about ERSA Legal of your own
+            accord and that no solicitation or advertisement has been made.
+          </p>
         </div>
-        <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: "#444650", lineHeight: "20px", margin: 0, textAlign: "left" }}>
-          As per the rules of the Bar Council of India, advocates are not permitted to solicit work or advertise.
-          This website is provided for informational purposes only and does not constitute legal advice.
-          By accessing this website, you acknowledge that you are seeking information about ERSA Legal of your own
-          accord and that no solicitation or advertisement has been made.
-        </p>
       </div>
-    </section>
+
+      {/* Buttons */}
+      <div className="ersa-disclaimer-banner-btns">
+        <button
+          id="ersa-disclaimer-reject"
+          onClick={() => handleConsent(false)}
+          style={{
+            background: "transparent",
+            color: "rgba(255,255,255,0.75)",
+            border: "1px solid rgba(255,255,255,0.35)",
+            cursor: "pointer",
+            padding: "10px 24px",
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: 13,
+            letterSpacing: "1.2px",
+            textTransform: "uppercase",
+            borderRadius: 3,
+            transition: "all 0.2s",
+            whiteSpace: "nowrap",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+            e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)";
+            e.currentTarget.style.color = "#fff";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "transparent";
+            e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)";
+            e.currentTarget.style.color = "rgba(255,255,255,0.75)";
+          }}
+        >
+          Reject
+        </button>
+        <button
+          id="ersa-disclaimer-accept"
+          onClick={() => handleConsent(true)}
+          style={{
+            background: "#ffdea5",
+            color: "#00113a",
+            border: "1px solid #ffdea5",
+            cursor: "pointer",
+            padding: "10px 28px",
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: 13,
+            letterSpacing: "1.2px",
+            textTransform: "uppercase",
+            fontWeight: 700,
+            borderRadius: 3,
+            transition: "all 0.2s",
+            whiteSpace: "nowrap",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "#ffe8bc";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "#ffdea5";
+          }}
+        >
+          Accept
+        </button>
+      </div>
+    </div>
   );
 });
-DisclaimerSection.displayName = "DisclaimerSection";
+DisclaimerBanner.displayName = "DisclaimerBanner";
 
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 interface FooterProps {
   onOpenPayment: () => void;
   onOpenTerms: () => void;
+  onOpenPrivacy: () => void;
 }
-const Footer: React.FC<FooterProps> = memo(({ onOpenPayment, onOpenTerms }) => {
+const Footer: React.FC<FooterProps> = memo(({ onOpenPayment, onOpenTerms, onOpenPrivacy }) => {
   const [ref, visible] = useIntersectionObserver();
   return (
     <footer ref={ref} className={`ersa-footer scroll-animate ${visible ? "visible" : ""}`}>
@@ -921,18 +1028,32 @@ const Footer: React.FC<FooterProps> = memo(({ onOpenPayment, onOpenTerms }) => {
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", margin: "0 0 0" }} />
       <div className="ersa-footer-bottom" style={{ padding: "20px 0", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <button 
-          onClick={onOpenTerms}
-          style={{ 
-            background: "none", border: "none", cursor: "pointer", 
-            fontFamily: "'Manrope', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.7)", 
-            textDecoration: "underline", marginBottom: "12px", transition: "color 0.2s", padding: 0
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.color = "#fff"}
-          onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
-        >
-          Terms and Conditions
-        </button>
+        <div style={{ display: "flex", gap: 24, marginBottom: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+          <button
+            onClick={onOpenTerms}
+            style={{
+              background: "none", border: "none", cursor: "pointer",
+              fontFamily: "'Manrope', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.7)",
+              textDecoration: "underline", transition: "color 0.2s", padding: 0,
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = "#fff"}
+            onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
+          >
+            Terms of Use
+          </button>
+          <button
+            onClick={onOpenPrivacy}
+            style={{
+              background: "none", border: "none", cursor: "pointer",
+              fontFamily: "'Manrope', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.7)",
+              textDecoration: "underline", transition: "color 0.2s", padding: 0,
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = "#fff"}
+            onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
+          >
+            Privacy Policy
+          </button>
+        </div>
         <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", margin: 0 }}>
           © 2026 ERSA Legal. All rights reserved.
         </p>
@@ -946,6 +1067,10 @@ Footer.displayName = "Footer";
 const ERSALegalClaude: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const [termsInitialTab, setTermsInitialTab] = useState<"terms" | "privacy">("terms");
+
+  const openTerms = () => { setTermsInitialTab("terms"); setIsTermsModalOpen(true); };
+  const openPrivacy = () => { setTermsInitialTab("privacy"); setIsTermsModalOpen(true); };
 
   return (
     <div style={{ width: "100%" }}>
@@ -956,14 +1081,16 @@ const ERSALegalClaude: React.FC = () => {
         <PracticeAreasSection />
         <AboutSection />
         <ContactSection />
-        <DisclaimerSection />
-        <Footer 
-          onOpenPayment={() => setIsPaymentModalOpen(true)} 
-          onOpenTerms={() => setIsTermsModalOpen(true)}
+        <Footer
+          onOpenPayment={() => setIsPaymentModalOpen(true)}
+          onOpenTerms={openTerms}
+          onOpenPrivacy={openPrivacy}
         />
       </div>
       <PaymentModal isOpen={isPaymentModalOpen} onClose={() => setIsPaymentModalOpen(false)} />
-      <TermsModal isOpen={isTermsModalOpen} onClose={() => setIsTermsModalOpen(false)} />
+      <TermsModal isOpen={isTermsModalOpen} onClose={() => setIsTermsModalOpen(false)} initialTab={termsInitialTab} />
+      {/* Disclaimer banner – shown only when consent not yet saved */}
+      <DisclaimerBanner />
     </div>
   );
 };

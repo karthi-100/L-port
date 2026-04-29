@@ -45,8 +45,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
       
-      // 1. Create order on backend 
-      // Amount is in rupees, backend expects paisa
       const orderRes = await fetch(`${backendUrl}/payment/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
