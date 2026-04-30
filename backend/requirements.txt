@@ -9,7 +9,7 @@ uvicorn[standard]==0.24.0
 # Data Validation
 pydantic==2.5.0
 pydantic[email]==2.5.0
-
+numpy==1.26.4
 # Environment Variables
 python-dotenv==1.0.0
 
