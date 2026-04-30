@@ -37,7 +37,6 @@ class Settings:
     
     # Database (optional for future)
     DATABASE_URL: Optional[str] = os.getenv("DATABASE_URL", None)
-    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     
     def __init__(self):
         """Validate critical settings on initialization."""

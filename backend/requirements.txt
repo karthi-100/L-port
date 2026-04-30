@@ -9,22 +9,12 @@ uvicorn[standard]==0.24.0
 # Data Validation
 pydantic==2.5.0
 pydantic[email]==2.5.0
-numpy==1.26.4
 # Environment Variables
 python-dotenv==1.0.0
 
 # HTTP Requests (used for Razorpay REST API calls)
 requests==2.31.0
 httpx==0.25.2
-
-# Google Generative AI (Gemini) - used in rag_agent.py
-google-genai>=1.2.0
-
-# Vector Database - used in rag_agent.py
-chromadb==0.4.24
-
-# PDF Processing - used in rag_agent.py
-pypdf>=6.10.2
 
 # Utilities
 setuptools

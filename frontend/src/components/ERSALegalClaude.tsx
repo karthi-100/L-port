@@ -557,9 +557,9 @@ HeroSection.displayName = "HeroSection";
 
 // ─── Practice Areas ───────────────────────────────────────────────────────────
 const practiceCards = [
-  { 
-    icon: imgIconDispute, 
-    title: "Dispute Resolution & Litigation", 
+  {
+    icon: imgIconDispute,
+    title: "Dispute Resolution & Litigation",
     desc: "Representation in civil, commercial, writ, and arbitration matters before the High Courts and other forums, including complex disputes.",
     details: {
       fullDesc: "Providing comprehensive representation in complex legal disputes before diverse judicial and quasi-judicial forums. Our approach combines meticulous legal research with strategic advocacy to protect client interests across civil, commercial, and writ matters.",
@@ -573,9 +573,9 @@ const practiceCards = [
       ]
     }
   },
-  { 
-    icon: imgIconCorporate, 
-    title: "Corporate & Commercial Advisory", 
+  {
+    icon: imgIconCorporate,
+    title: "Corporate & Commercial Advisory",
     desc: "Advising on contracts, business arrangements, structuring, and legal risk across commercial operations.",
     details: {
       fullDesc: "Advising businesses on critical legal frameworks to ensure operational continuity and risk mitigation. We handle the intricacies of corporate governance, business structuring, and commercial contractual obligations with a focus on long-term scalability.",
@@ -589,9 +589,9 @@ const practiceCards = [
       ]
     }
   },
-  { 
-    icon: imgIconIntl, 
-    title: "International & Cross-Border", 
+  {
+    icon: imgIconIntl,
+    title: "International & Cross-Border",
     desc: "Advising clients on legal and regulatory issues involving India and international jurisdictions, including structuring and compliance.",
     details: {
       fullDesc: "Navigating the complexities of multi-jurisdictional legal environments. We assist foreign entities entering the Indian market and Indian businesses expanding globally, ensuring compliance with international treaties and local regulations.",
@@ -605,9 +605,9 @@ const practiceCards = [
       ]
     }
   },
-  { 
-    icon: imgIconCustoms, 
-    title: "Customs and Taxation", 
+  {
+    icon: imgIconCustoms,
+    title: "Customs and Taxation",
     desc: "Advisory and disputes relating to Customs, Central Excise, GST, taxation matters, and foreign trade compliance.",
     details: {
       fullDesc: "Strategic advisory on indirect taxation and foreign trade policies. We help clients navigate the evolving landscape of GST, Customs, and Central Excise while managing compliance and representing them in tax-related disputes.",
@@ -621,9 +621,9 @@ const practiceCards = [
       ]
     }
   },
-  { 
-    icon: imgIconIP, 
-    title: "Intellectual Property", 
+  {
+    icon: imgIconIP,
+    title: "Intellectual Property",
     desc: "Intellectual property matters across patents, trademarks, and copyrights, including registration, enforcement, and disputes.",
     details: {
       fullDesc: "Protecting and leveraging intellectual assets in a competitive global economy. From registration to enforcement, we provide end-to-end IP services designed to safeguard your innovations and brand identity.",
@@ -637,9 +637,9 @@ const practiceCards = [
       ]
     }
   },
-  { 
-    icon: imgIconRealEstate, 
-    title: "Real Estate", 
+  {
+    icon: imgIconRealEstate,
+    title: "Real Estate",
     desc: "Advising on property transactions, due diligence, development arrangements, succession planning, and estate matters.",
     details: {
       fullDesc: "Providing legal clarity for complex property transactions and private wealth management. We offer rigorous due diligence and succession planning services for both corporate entities and high-net-worth individuals.",
@@ -813,7 +813,7 @@ const ContactSection: React.FC = memo(() => {
         </p>
       </div>
       <div className={`ersa-form-card scroll-animate ${visible ? "visible" : ""}`} style={{ transitionDelay: "0.2s" }}>
-          <div className="ersa-form-grid">
+        <div className="ersa-form-grid">
           <div><label style={lbl}>Full Name</label><input type="text" placeholder="Your full legal name" style={input} value={fullName} onChange={(e) => setFullName(e.target.value)} /></div>
           <div><label style={lbl}>Mobile Number</label><input type="tel" placeholder="+91 00000 00000" style={input} value={mobile} onChange={(e) => setMobile(e.target.value)} /></div>
           <div><label style={lbl}>Location</label><input type="text" placeholder="City, Country" style={input} value={locationField} onChange={(e) => setLocationField(e.target.value)} /></div>
@@ -1001,11 +1001,11 @@ const Footer: React.FC<FooterProps> = memo(({ onOpenPayment, onOpenTerms, onOpen
             {[
               { icon: imgFooterPhone, text: "+91 9962959428" },
               { icon: imgFooterAddress, text: "119/121 Chamiers Road RA Puram, Chennai 600028" },
-              { icon: imgFooterEmail, text: "contact@ersalegal.com" },
+              { icon: imgFooterEmail, text: "contact@ersa.legal" },
             ].map(({ icon, text }) => (
               <div key={text} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
                 <img src={icon} alt="" loading="lazy" style={{ width: 16, height: 16, marginTop: 3, flexShrink: 0 }} />
-                <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", lineHeight: "24px" , maxWidth:260}}>{text}</span>
+                <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", lineHeight: "24px", maxWidth: 260 }}>{text}</span>
               </div>
             ))}
           </div>
@@ -1104,7 +1104,7 @@ const ERSALegalClaude: React.FC = () => {
 
 const ChatWidget: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Array<{from: 'user' | 'bot'; text: string; ts?: string}>>([]);
+  const [messages, setMessages] = useState<Array<{ from: 'user' | 'bot'; text: string; ts?: string }>>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -1181,6 +1181,50 @@ const ChatWidget: React.FC = () => {
       {open && (
         <div className="chat-window" role="dialog" aria-label="Legal chat">
           <div className="chat-header">Legal Assistant</div>
+
+          {/* ── Under Construction overlay – remove this block when the feature is ready ── */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'rgba(0,17,58,0.96)',
+            backdropFilter: 'blur(6px)',
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center',
+            gap: 16, zIndex: 10, borderRadius: 'inherit',
+            padding: '32px 24px', textAlign: 'center',
+          }}>
+            {/* animated cog icon */}
+            <div style={{
+              width: 64, height: 64, borderRadius: '50%',
+              background: 'rgba(255,222,165,0.12)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              animation: 'ersa-spin 6s linear infinite',
+              border: '1.5px solid rgba(255,222,165,0.25)',
+            }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffdea5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg>
+            </div>
+            <p style={{
+              fontFamily: "'Newsreader', Georgia, serif",
+              fontSize: 20, fontStyle: 'italic',
+              color: '#ffdea5', margin: 0, lineHeight: '28px',
+            }}>Under Construction</p>
+            <p style={{
+              fontFamily: "'Manrope', sans-serif",
+              fontSize: 13, color: 'rgba(255,255,255,0.65)',
+              lineHeight: '20px', margin: 0, maxWidth: 240,
+            }}>
+              This feature is currently being developed and will be available soon.
+            </p>
+            <p style={{
+              fontFamily: "'Manrope', sans-serif",
+              fontSize: 12, color: 'rgba(255,255,255,0.4)',
+              margin: 0, letterSpacing: '1px', textTransform: 'uppercase',
+            }}>Coming Soon</p>
+          </div>
+          {/* ── end overlay ── */}
+
           <div className="chat-body" ref={scrollRef}>
             {messages.length === 0 && <div style={{ color: '#6b7280', fontSize: 14 }}>Ask a question about the documents.</div>}
             {messages.map((m, i) => (
