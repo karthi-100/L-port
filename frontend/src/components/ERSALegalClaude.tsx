@@ -87,6 +87,10 @@ const GLOBAL_CSS = `
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
+  @keyframes ersa-spin {
+    to { transform: rotate(360deg); }
+  }
+
   .ersa-spinner {
     display: inline-block; width: 16px; height: 16px;
     border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;
