@@ -29,7 +29,7 @@ class Settings:
     RAZORPAY_WEBHOOK_SECRET: str = os.getenv("RAZORPAY_WEBHOOK_SECRET", "")
     
     # Frontend URL for CORS
-    FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:5173")
+    FRONTEND_URLS: list = [url.strip() for url in os.getenv("FRONTEND_URL", "http://localhost:5173").split(",") if url.strip()]
     BACKEND_URL: str = os.getenv("BACKEND_URL", "http://localhost:8000")
     
     # Logging

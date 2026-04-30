@@ -42,9 +42,7 @@ app = FastAPI(
 )
 
 # Configure CORS
-origins = [
-    settings.FRONTEND_URL
-]
+origins = settings.FRONTEND_URLS
 
 if settings.DEBUG:
     origins.append("*")
