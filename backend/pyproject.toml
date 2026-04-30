@@ -24,4 +24,6 @@ dependencies = [
     "mypy==1.7.1",
     "types-requests==2.31.0.10",
     "setuptools>=82.0.1",
+    "pypdf>=6.10.2",
+    "google-genai>=1.2.0",
 ]

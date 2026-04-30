@@ -10,8 +10,9 @@ from contextlib import asynccontextmanager
 import logging
 
 from config import settings
-from routes import payment_router
+from routes import payment_router, rag_router
 from utils import setup_logger
+import agent.rag_agent as rag_agent
 
 # Configure logging
 logger = setup_logger(__name__)
@@ -113,6 +114,7 @@ async def root():
 
 # Include routers
 app.include_router(payment_router)
+app.include_router(rag_router)
 
 # Logging middleware for request tracking
 @app.middleware("http")

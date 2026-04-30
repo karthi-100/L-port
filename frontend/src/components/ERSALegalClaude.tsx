@@ -24,6 +24,7 @@ import { PaymentModal } from "./PaymentModal";
 import { TermsModal } from "./TermsModal";
 import LawLibrary from "../assets/law-library.png"
 import AboutImage from "../assets/about-image.jpeg"
+import WhatsAppIcon from "../assets/whatsapp-icon.svg";
 
 
 const imgLogo = Logo;
@@ -178,8 +179,9 @@ const GLOBAL_CSS = `
   }
 
   /* ── Footer ── */
-  .ersa-footer { background: #00113a; padding: 44px 152px 0; overflow: hidden; }
-  .ersa-footer-grid { display: grid; grid-template-columns: auto 1fr auto auto; gap: 48px; align-items: start; padding-bottom: 40px; }
+  .ersa-footer { background: #00113a; padding: 44px 24px 0; overflow: hidden; box-sizing: border-box; }
+  .ersa-footer-grid { display: grid; grid-template-columns: auto 1fr auto auto; gap: 48px; align-items: start; padding-bottom: 40px; width: 100%; max-width: 1280px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+  .ersa-footer-bottom { max-width: 1280px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
 
   /* ════════════
      LAPTOP  ≥ 1280px
@@ -197,7 +199,8 @@ const GLOBAL_CSS = `
   @media (max-width: 1024px) {
     .ersa-hero { padding-top: 84px; }
     .ersa-hero-img-abs { width: 36%; height: 480px; top: 110px; right: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-    .ersa-hero-text { padding: 110px 40% 80px 40px; }
+    /* Keep a gap between the hero image and text on tablet by adding right padding equal to image width + gutter */
+    .ersa-hero-text { padding: 110px calc(36% + 24px) 80px 40px; }
 
     .ersa-practice-section { padding: 64px 40px; }
     .ersa-practice-grid { grid-template-columns: repeat(2, 1fr); }
@@ -210,8 +213,11 @@ const GLOBAL_CSS = `
 
     .ersa-payment-grid { grid-template-columns: 1fr; gap: 48px; }
 
-    .ersa-footer { padding: 44px 60px 0; }
-    .ersa-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    .ersa-footer { padding: 44px 24px 24px; }
+    /* Stack footer columns on tablet for better readability */
+    .ersa-footer-grid { grid-template-columns: 1fr; gap: 24px; align-items: start; }
+    .ersa-footer-grid > div { justify-self: stretch; }
+    .ersa-footer-bottom { padding-left: 16px; padding-right: 16px; }
   }
 
   /* ════════════
@@ -220,7 +226,8 @@ const GLOBAL_CSS = `
   @media (max-width: 900px) {
     .ersa-nav { padding: 0 16px; }
     .ersa-hero { padding-top: 84px; }
-    .ersa-hero-text { padding: 90px 35% 60px 32px; }
+    /* Small tablet: reduce side padding but keep modest right gap for image */
+    .ersa-hero-text { padding: 90px calc(32px + 8%) 60px 32px; }
     .ersa-hero-h1 { font-size: 54px !important; line-height: 62px !important; }
     .ersa-practice-grid { gap: 24px; }
     .ersa-about-h2 { font-size: 48px !important; }
@@ -322,6 +329,34 @@ const GLOBAL_CSS = `
     .ersa-practice-h2 { font-size: 20px !important; }
     .ersa-about-h2 { font-size: 28px !important; }
   }
+
+  /* Chat widget (WhatsApp-like) */
+  .chat-toggle { position: fixed; right: 24px; bottom: 24px; z-index: 9999; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .whatsapp-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; margin-top: 0; border-radius: 50%;
+  }
+  .whatsapp-btn svg { width: 22px; height: 22px; display: block; }
+  .chat-window { position: fixed; right: 24px; bottom: 110px; width: 420px; max-width: 95%; height: 520px; background: #fff; box-shadow: 0 12px 30px rgba(0,0,0,0.2); border-radius: 12px; z-index: 9999; display: flex; flex-direction: column; overflow: hidden; }
+  .chat-header { padding: 12px; background: #00113a; color: #fff; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .chat-body { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+  .chat-row { display: flex; gap: 6px; align-items: flex-end; }
+  .chat-row.bot { justify-content: flex-start; }
+  .chat-row.user { justify-content: flex-end; }
+  .chat-avatar { height: 32px; border-radius: 16px; flex-shrink: 0; background: #e5e7eb; display: inline-flex; align-items: center; justify-content: center; color: #00113a; font-weight: 700; padding: 0 6px; font-size: 12px; line-height: 1; }
+  .chat-bubble { padding: 10px 14px; border-radius: 18px; max-width: 75%; font-size: 14px; line-height: 1.3; display: inline-block; margin: 0; }
+  .chat-bubble.bot { background: #f1f0f0; color: #111827; border-top-left-radius: 6px; text-align: left; }
+  .chat-bubble.user { background: #dbeeff; color: #0b2a4a; border-top-right-radius: 6px; text-align: left; }
+  .chat-time { font-size: 11px; color: #6b7280; margin-top: 4px; }
+  .chat-input { padding: 8px; border-top: 1px solid #e5e7eb; display: flex; gap: 8px; align-items: center; }
+  .chat-input input { flex: 1; padding: 8px 12px; border-radius: 20px; border: 1px solid #d1d5db; outline: none; }
+  .chat-send { background: #00113a; color: #fff; border: none; padding: 8px 12px; border-radius: 12px; cursor: pointer; }
+
+  @media (max-width: 480px) {
+    .chat-window { right: 12px; bottom: 90px; width: 320px; height: 440px; }
+    .chat-toggle { right: 12px; bottom: 12px; }
+  }
+
 `;
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
@@ -736,11 +771,11 @@ const ContactSection: React.FC = memo(() => {
     setIsSubmitting(true);
     try {
       const templateParams = {
-        full_name: fullName,
-        mobile_number: mobile,
+        name: fullName,
+        contactNumber: mobile,
         location: locationField,
         email: emailField,
-        practice_area: practiceArea,
+        areaintrest: practiceArea,
         message: messageField,
       };
 
@@ -789,7 +824,7 @@ const ContactSection: React.FC = memo(() => {
             <div style={{ position: "relative" }}>
               <select style={{ ...input, appearance: "none", paddingRight: 40, cursor: "pointer" }} value={practiceArea} onChange={(e) => setPracticeArea(e.target.value)}>
                 <option value="">Select an option</option>
-                {["Dispute Resolution & Litigation", "Corporate & Commercial Advisory", "International & Cross-Border", "Customs and Taxation", "Intellectual Property", "Real Estate", "Healthcare, Life Sciences & Food Regulation"].map(o => <option key={o} value={o}>{o}</option>)}
+                {["Dispute Resolution & Litigation", "Corporate & Commercial Advisory", "International & Cross-Border", "Customs and Taxation", "Intellectual Property", "Real Estate", "Healthcare, Life Sciences & Food Regulation", "Others"].map(o => <option key={o} value={o}>{o}</option>)}
               </select>
               <img src={imgSelectArrow} alt="" loading="lazy" style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", width: 24, pointerEvents: "none" }} />
             </div>
@@ -964,13 +999,13 @@ const Footer: React.FC<FooterProps> = memo(({ onOpenPayment, onOpenTerms, onOpen
           <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Contact</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {[
-              { icon: imgFooterPhone, text: "+91 00000 00000" },
-              { icon: imgFooterAddress, text: "Chennai, Tamil Nadu, India" },
+              { icon: imgFooterPhone, text: "+91 9962959428" },
+              { icon: imgFooterAddress, text: "119/121 Chamiers Road RA Puram, Chennai 600028" },
               { icon: imgFooterEmail, text: "contact@ersalegal.com" },
             ].map(({ icon, text }) => (
               <div key={text} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
                 <img src={icon} alt="" loading="lazy" style={{ width: 16, height: 16, marginTop: 3, flexShrink: 0 }} />
-                <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", lineHeight: "24px" }}>{text}</span>
+                <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 15, color: "#fff", lineHeight: "24px" , maxWidth:260}}>{text}</span>
               </div>
             ))}
           </div>
@@ -1061,6 +1096,110 @@ const ERSALegalClaude: React.FC = () => {
       <TermsModal isOpen={isTermsModalOpen} onClose={() => setIsTermsModalOpen(false)} initialTab={termsInitialTab} />
       {/* Disclaimer banner – shown only when consent not yet saved */}
       <DisclaimerBanner />
+      <ChatWidget />
+    </div>
+  );
+};
+
+
+const ChatWidget: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<Array<{from: 'user' | 'bot'; text: string; ts?: string}>>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const backend = (import.meta.env as any).VITE_BACKEND_URL ?? "http://localhost:8000";
+
+  const whatsappNumber = (import.meta.env as any).VITE_WHATSAPP_NUMBER;
+  const whatsappUrl = whatsappNumber && whatsappNumber.length > 0 ? `https://wa.me/${whatsappNumber}` : 'https://web.whatsapp.com/';
+
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
+
+  const send = async () => {
+    const q = input.trim();
+    if (!q) return;
+    const now = new Date().toISOString();
+    setMessages(prev => [...prev, { from: 'user', text: q, ts: now }]);
+    setInput("");
+    setLoading(true);
+    try {
+      const res = await fetch(`${backend}/rag/ask`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: q })
+      });
+      if (!res.ok) {
+        const txt = await res.text();
+        setMessages(prev => [...prev, { from: 'bot', text: `Server error: ${res.status} ${txt}`, ts: new Date().toISOString() }]);
+        return;
+      }
+      const data = await res.json();
+      const ans = data?.answer ?? data?.detail ?? 'No answer from server.';
+      setMessages(prev => [...prev, { from: 'bot', text: ans, ts: new Date().toISOString() }]);
+    } catch (err) {
+      setMessages(prev => [...prev, { from: 'bot', text: 'Error contacting backend.', ts: new Date().toISOString() }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, open]);
+
+  const formatTime = (iso?: string) => {
+    if (!iso) return '';
+    try {
+      const d = new Date(iso);
+      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch { return ''; }
+  };
+
+  return (
+    <div>
+      <div className="chat-toggle">
+        <button onClick={() => setOpen(v => !v)} aria-label="Toggle chat" style={{ width: 56, height: 56, borderRadius: 28, background: '#00113a', color: '#fff', border: 'none', boxShadow: '0 6px 18px rgba(0,0,0,0.2)', cursor: 'pointer' }}>
+          {open ? '✕' : 'Chat'}
+        </button>
+
+        {/* WhatsApp quick button - opens configured number or WhatsApp web */}
+        <a
+          className="whatsapp-btn"
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open WhatsApp"
+          title="Open WhatsApp"
+        >
+          <img src={WhatsAppIcon} alt="WhatsApp" />
+        </a>
+      </div>
+
+      {open && (
+        <div className="chat-window" role="dialog" aria-label="Legal chat">
+          <div className="chat-header">Legal Assistant</div>
+          <div className="chat-body" ref={scrollRef}>
+            {messages.length === 0 && <div style={{ color: '#6b7280', fontSize: 14 }}>Ask a question about the documents.</div>}
+            {messages.map((m, i) => (
+              <div key={i} className={`chat-row ${m.from}`}>
+                {m.from === 'bot' && <div className="chat-avatar">ERSA</div>}
+                <div>
+                  <div className={`chat-bubble ${m.from}`}>{m.text}</div>
+                  <div className="chat-time">{formatTime(m.ts)}</div>
+                </div>
+                {m.from === 'user' && <div className="chat-avatar">Y</div>}
+              </div>
+            ))}
+          </div>
+          <div className="chat-input">
+            <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') send(); }} placeholder="Type your question..." />
+            <button className="chat-send" onClick={send} disabled={loading}>{loading ? '...' : 'Send'}</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
