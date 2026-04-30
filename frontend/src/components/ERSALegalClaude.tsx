@@ -1110,8 +1110,8 @@ const ChatWidget: React.FC = () => {
 
   const backend = (import.meta.env as any).VITE_BACKEND_URL ?? "http://localhost:8000";
 
-  const whatsappNumber = (import.meta.env as any).VITE_WHATSAPP_NUMBER;
-  const whatsappUrl = whatsappNumber && whatsappNumber.length > 0 ? `https://wa.me/${whatsappNumber}` : 'https://web.whatsapp.com/';
+  const whatsappNumber = (import.meta.env as any).VITE_WHATSAPP_NUMBER || 919962959428;
+  const whatsappUrl = whatsappNumber && whatsappNumber.length > 0 ? `https://wa.me/919962959428` : 'https://web.whatsapp.com/';
 
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
