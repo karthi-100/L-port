@@ -169,7 +169,24 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
         <input type="text" placeholder="Full Name" style={inputStyle} value={name} onChange={(e) => setName(e.target.value)} />
         <input type="email" placeholder="Email Address" style={inputStyle} value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="tel" placeholder="Mobile Number" style={inputStyle} value={phone} onChange={(e) => setPhone(e.target.value)} />
-        <input type="number" placeholder="Amount (INR)" style={inputStyle} value={amount} onChange={(e) => setAmount(e.target.value)} />
+        <div style={{ position: 'relative', width: '100%' }}>
+          <span style={{
+            position: 'absolute',
+            left: '12px',
+            top: '13px',
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: '16px',
+            color: '#1a1a2e',
+            pointerEvents: 'none'
+          }}>₹</span>
+          <input 
+            type="number" 
+            placeholder="Amount" 
+            style={{ ...inputStyle, paddingLeft: '28px' }} 
+            value={amount} 
+            onChange={(e) => setAmount(e.target.value)} 
+          />
+        </div>
 
         <button
           onClick={handlePayment}
