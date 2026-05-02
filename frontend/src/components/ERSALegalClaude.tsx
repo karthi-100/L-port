@@ -341,23 +341,8 @@ const GLOBAL_CSS = `
     width: 48px; height: 48px; margin-top: 0; border-radius: 50%;
   }
   .whatsapp-btn svg { width: 22px; height: 22px; display: block; }
-  .chat-window { position: fixed; right: 24px; bottom: 110px; width: 420px; max-width: 95%; height: 520px; background: #fff; box-shadow: 0 12px 30px rgba(0,0,0,0.2); border-radius: 12px; z-index: 9999; display: flex; flex-direction: column; overflow: hidden; }
-  .chat-header { padding: 12px; background: #00113a; color: #fff; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-  .chat-body { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-  .chat-row { display: flex; gap: 6px; align-items: flex-end; }
-  .chat-row.bot { justify-content: flex-start; }
-  .chat-row.user { justify-content: flex-end; }
-  .chat-avatar { height: 32px; border-radius: 16px; flex-shrink: 0; background: #e5e7eb; display: inline-flex; align-items: center; justify-content: center; color: #00113a; font-weight: 700; padding: 0 6px; font-size: 12px; line-height: 1; }
-  .chat-bubble { padding: 10px 14px; border-radius: 18px; max-width: 75%; font-size: 14px; line-height: 1.3; display: inline-block; margin: 0; }
-  .chat-bubble.bot { background: #f1f0f0; color: #111827; border-top-left-radius: 6px; text-align: left; }
-  .chat-bubble.user { background: #dbeeff; color: #0b2a4a; border-top-right-radius: 6px; text-align: left; }
-  .chat-time { font-size: 11px; color: #6b7280; margin-top: 4px; }
-  .chat-input { padding: 8px; border-top: 1px solid #e5e7eb; display: flex; gap: 8px; align-items: center; }
-  .chat-input input { flex: 1; padding: 8px 12px; border-radius: 20px; border: 1px solid #d1d5db; outline: none; }
-  .chat-send { background: #00113a; color: #fff; border: none; padding: 8px 12px; border-radius: 12px; cursor: pointer; }
 
   @media (max-width: 480px) {
-    .chat-window { right: 12px; bottom: 90px; width: 320px; height: 440px; }
     .chat-toggle { right: 12px; bottom: 12px; }
   }
 
@@ -1107,68 +1092,12 @@ const ERSALegalClaude: React.FC = () => {
 
 
 const ChatWidget: React.FC = () => {
-  const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Array<{ from: 'user' | 'bot'; text: string; ts?: string }>>([]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const backend = (import.meta.env as any).VITE_BACKEND_URL ?? "http://localhost:8000";
-
   const whatsappNumber = (import.meta.env as any).VITE_WHATSAPP_NUMBER || 919962959428;
   const whatsappUrl = whatsappNumber && whatsappNumber.length > 0 ? `https://wa.me/919962959428` : 'https://web.whatsapp.com/';
-
-  const scrollRef = React.useRef<HTMLDivElement | null>(null);
-
-  const send = async () => {
-    const q = input.trim();
-    if (!q) return;
-    const now = new Date().toISOString();
-    setMessages(prev => [...prev, { from: 'user', text: q, ts: now }]);
-    setInput("");
-    setLoading(true);
-    try {
-      const res = await fetch(`${backend}/rag/ask`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: q })
-      });
-      if (!res.ok) {
-        const txt = await res.text();
-        setMessages(prev => [...prev, { from: 'bot', text: `Server error: ${res.status} ${txt}`, ts: new Date().toISOString() }]);
-        return;
-      }
-      const data = await res.json();
-      const ans = data?.answer ?? data?.detail ?? 'No answer from server.';
-      setMessages(prev => [...prev, { from: 'bot', text: ans, ts: new Date().toISOString() }]);
-    } catch (err) {
-      setMessages(prev => [...prev, { from: 'bot', text: 'Error contacting backend.', ts: new Date().toISOString() }]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Auto-scroll to bottom when messages change
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages, open]);
-
-  const formatTime = (iso?: string) => {
-    if (!iso) return '';
-    try {
-      const d = new Date(iso);
-      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } catch { return ''; }
-  };
 
   return (
     <div>
       <div className="chat-toggle">
-        <button onClick={() => setOpen(v => !v)} aria-label="Toggle chat" style={{ width: 56, height: 56, borderRadius: 28, background: '#00113a', color: '#fff', border: 'none', boxShadow: '0 6px 18px rgba(0,0,0,0.2)', cursor: 'pointer' }}>
-          {open ? '✕' : 'Chat'}
-        </button>
-
         {/* WhatsApp quick button - opens configured number or WhatsApp web */}
         <a
           className="whatsapp-btn"
@@ -1181,73 +1110,6 @@ const ChatWidget: React.FC = () => {
           <img src={WhatsAppIcon} alt="WhatsApp" />
         </a>
       </div>
-
-      {open && (
-        <div className="chat-window" role="dialog" aria-label="Legal chat">
-          <div className="chat-header">Legal Assistant</div>
-
-          {/* ── Under Construction overlay – remove this block when the feature is ready ── */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'rgba(0,17,58,0.96)',
-            backdropFilter: 'blur(6px)',
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
-            gap: 16, zIndex: 10, borderRadius: 'inherit',
-            padding: '32px 24px', textAlign: 'center',
-          }}>
-            {/* animated cog icon */}
-            <div style={{
-              width: 64, height: 64, borderRadius: '50%',
-              background: 'rgba(255,222,165,0.12)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              animation: 'ersa-spin 6s linear infinite',
-              border: '1.5px solid rgba(255,222,165,0.25)',
-            }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffdea5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="3" />
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-              </svg>
-            </div>
-            <p style={{
-              fontFamily: "'Newsreader', Georgia, serif",
-              fontSize: 20, fontStyle: 'italic',
-              color: '#ffdea5', margin: 0, lineHeight: '28px',
-            }}>Under Construction</p>
-            <p style={{
-              fontFamily: "'Manrope', sans-serif",
-              fontSize: 13, color: 'rgba(255,255,255,0.65)',
-              lineHeight: '20px', margin: 0, maxWidth: 240,
-            }}>
-              This feature is currently being developed and will be available soon.
-            </p>
-            <p style={{
-              fontFamily: "'Manrope', sans-serif",
-              fontSize: 12, color: 'rgba(255,255,255,0.4)',
-              margin: 0, letterSpacing: '1px', textTransform: 'uppercase',
-            }}>Coming Soon</p>
-          </div>
-          {/* ── end overlay ── */}
-
-          <div className="chat-body" ref={scrollRef}>
-            {messages.length === 0 && <div style={{ color: '#6b7280', fontSize: 14 }}>Ask a question about the documents.</div>}
-            {messages.map((m, i) => (
-              <div key={i} className={`chat-row ${m.from}`}>
-                {m.from === 'bot' && <div className="chat-avatar">ERSA</div>}
-                <div>
-                  <div className={`chat-bubble ${m.from}`}>{m.text}</div>
-                  <div className="chat-time">{formatTime(m.ts)}</div>
-                </div>
-                {m.from === 'user' && <div className="chat-avatar">Y</div>}
-              </div>
-            ))}
-          </div>
-          <div className="chat-input">
-            <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') send(); }} placeholder="Type your question..." />
-            <button className="chat-send" onClick={send} disabled={loading}>{loading ? '...' : 'Send'}</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
