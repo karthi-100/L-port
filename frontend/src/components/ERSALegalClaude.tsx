@@ -1091,9 +1091,12 @@ const ERSALegalClaude: React.FC = () => {
 
 
 const ChatWidget: React.FC = () => {
-  const whatsappNumber = (import.meta.env as any).VITE_WHATSAPP_NUMBER || 919962959428;
-  const whatsappUrl = whatsappNumber && whatsappNumber.length > 0 ? `https://wa.me/919962959428` : 'https://web.whatsapp.com/';
+  const cleanNumber = "919962959428";
+  const isMobile = /Android|iPhone/i.test(navigator.userAgent);
 
+const whatsappUrl = isMobile
+  ? `https://api.whatsapp.com/send?phone=${cleanNumber}`
+  : `https://web.whatsapp.com/send?phone=${cleanNumber}`;
   return (
     <div>
       <div className="chat-toggle">
