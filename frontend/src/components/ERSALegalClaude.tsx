@@ -187,13 +187,39 @@ const GLOBAL_CSS = `
   .ersa-footer-bottom { max-width: 1280px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
 
   /* ════════════
-     LAPTOP  ≥ 1280px
+     LARGE DESKTOP  ≥ 1441px
   ════════════ */
-  @media (min-width: 1280px) {
+  @media (min-width: 1441px) {
     .ersa-hero-text { padding-left: 120px; }
     .ersa-practice-section { padding: 100px 120px; text-align: left; }
     .ersa-about-section { padding: 140px 120px; }
     .ersa-payment-section { padding: 97px 120px 96px; }
+  }
+
+  /* ════════════
+     15-INCH / MID LAPTOP  1025px – 1440px
+  ════════════ */
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    .ersa-hero-img-abs {
+      width: min(460px, 38%);
+      height: 580px;
+      top: 120px;
+      right: 36px;
+    }
+    .ersa-hero-text {
+      padding: 120px calc(38% + 36px) 80px 72px;
+    }
+    .ersa-hero-h1 {
+      font-size: 60px !important;
+      line-height: 64px !important;
+    }
+    .ersa-hero-p {
+      font-size: 16px !important;
+      line-height: 26px !important;
+    }
+    .ersa-practice-section { padding: 80px 72px; }
+    .ersa-about-section { padding: 100px 72px; }
+    .ersa-payment-section { padding: 80px 72px; }
   }
 
   /* ════════════
@@ -850,6 +876,7 @@ const ContactSection: React.FC = memo(() => {
     </section>
   );
 }); ContactSection.displayName = "ContactSection";
+
 // ─── Disclaimer Banner (cookie-style) ────────────────────────────────────────
 const DISCLAIMER_KEY = "ersa_disclaimer_consent";
 
@@ -1091,9 +1118,10 @@ const ChatWidget: React.FC = () => {
   const cleanNumber = "919962959428";
   const isMobile = /Android|iPhone/i.test(navigator.userAgent);
 
-const whatsappUrl = isMobile
-  ? `https://api.whatsapp.com/send?phone=${cleanNumber}`
-  : `https://web.whatsapp.com/send?phone=${cleanNumber}`;
+  const whatsappUrl = isMobile
+    ? `https://api.whatsapp.com/send?phone=${cleanNumber}`
+    : `https://web.whatsapp.com/send?phone=${cleanNumber}`;
+
   return (
     <div>
       <div className="chat-toggle">
