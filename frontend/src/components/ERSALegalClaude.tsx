@@ -120,7 +120,7 @@ const GLOBAL_CSS = `
   }
   .ersa-mobile-menu.open { display: flex; }
 
-  /* ── Hero ── */
+  /* ── Hero (Original Layout) ── */
   .ersa-hero { position: relative; overflow: hidden; background: #fff; width: 100%; }
   .ersa-hero-img-abs {
     position: absolute; top: 140px; right: 47px;
@@ -202,7 +202,6 @@ const GLOBAL_CSS = `
   @media (max-width: 1024px) {
     .ersa-hero { padding-top: 84px; }
     .ersa-hero-img-abs { width: 36%; height: 480px; top: 110px; right: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-    /* Keep a gap between the hero image and text on tablet by adding right padding equal to image width + gutter */
     .ersa-hero-text { padding: 110px calc(36% + 24px) 80px 40px; }
 
     .ersa-practice-section { padding: 64px 40px; }
@@ -217,7 +216,6 @@ const GLOBAL_CSS = `
     .ersa-payment-grid { grid-template-columns: 1fr; gap: 48px; }
 
     .ersa-footer { padding: 44px 24px 24px; }
-    /* Stack footer columns on tablet for better readability */
     .ersa-footer-grid { grid-template-columns: 1fr; gap: 24px; align-items: start; }
     .ersa-footer-grid > div { justify-self: stretch; }
     .ersa-footer-bottom { padding-left: 16px; padding-right: 16px; }
@@ -229,7 +227,6 @@ const GLOBAL_CSS = `
   @media (max-width: 900px) {
     .ersa-nav { padding: 0 16px; }
     .ersa-hero { padding-top: 84px; }
-    /* Small tablet: reduce side padding but keep modest right gap for image */
     .ersa-hero-text { padding: 90px calc(32px + 8%) 60px 32px; }
     .ersa-hero-h1 { font-size: 54px !important; line-height: 62px !important; }
     .ersa-practice-grid { gap: 24px; }
@@ -470,7 +467,7 @@ const NavBar: React.FC = memo(() => {
 });
 NavBar.displayName = "NavBar";
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+// ─── Hero (Original Layout) ─────────────────────────────────────────────────────
 const HeroSection: React.FC = memo(() => {
   const w = useWindowWidth();
   const mobile = w <= 768;
@@ -683,7 +680,7 @@ const PracticeAreasSection: React.FC = memo(() => {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingBottom: 8 }}>
             <img src={imgIconHealthcare} alt="" loading="lazy" style={{ height: 28, width: "auto" }} />
           </div>
-          <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 30, color: "#fff", lineHeight: "36px", margin: 0 }}>Healthcare, Life Sciences &amp; Food Regulation</h3>
+          <h3 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 30, color: "#fff", lineHeight: "36px", margin: 0 }}>Healthcare, Life Sciences & Food Regulation</h3>
           <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "rgba(255,255,255,0.8)", lineHeight: "26px", margin: 0, maxWidth: 672 }}>
             Advising on biomedical laws, healthcare arrangements, food and drug compliance, and related regulatory matters in evolving markets.
           </p>
@@ -795,7 +792,7 @@ const ContactSection: React.FC = memo(() => {
     <section id="contact" ref={ref} className="ersa-contact-section">
       <div className={`scroll-animate ${visible ? "visible" : ""}`} style={{ textAlign: "center", marginBottom: 48 }}>
         <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#775a19", letterSpacing: "3.2px", textTransform: "uppercase", margin: "0 0 8px" }}>Direct Communication</p>
-        <h2 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 16px" }}>Inquiry &amp; Consultation</h2>
+        <h2 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: 48, color: "#00113a", lineHeight: "48px", margin: "0 0 16px" }}>Inquiry & Consultation</h2>
         <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 18, color: "#444650", lineHeight: "28px", maxWidth: 570, margin: "0 auto" }}>
           Please provide your details below for a structured response to your legal requirements.
         </p>
@@ -987,7 +984,7 @@ const Footer: React.FC<FooterProps> = memo(({ onOpenPayment, onOpenTerms, onOpen
           <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Contact</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {[
-              { icon: imgFooterPhone, text: "+91 9962959428" },
+              { icon: imgFooterPhone, text: "+91 9791100250" },
               { icon: imgFooterAddress, text: "119/121 Chamiers Road RA Puram, Chennai 600028" },
               { icon: imgFooterEmail, text: "contact@ersa.legal" },
             ].map(({ icon, text }) => (
