@@ -11,7 +11,6 @@ function App() {
   return (
     <>
       <ScrollToTop />
-
         <Routes>
         <Route path="/" element={<ERSALegalClaude/>} />
         <Route path="/nri-property-services" element={<NRIPropertyServices/>} />
