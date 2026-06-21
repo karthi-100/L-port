@@ -1,0 +1,624 @@
+/* ══════════════════════════════════════════════════════════════
+   ERSA Legal — Design System / Base Styles
+   ══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;600;700&display=swap');
+
+/* ── CSS Custom Properties ── */
+:root {
+  --color-primary: #00113a;
+  --color-primary-hover: #001a4d;
+  --color-accent: #775a19;
+  --color-accent-hover: #8a6b1f;
+  --color-accent-light: #ffdea5;
+  --color-accent-light-hover: #ffe8bc;
+  --color-bg: #fff;
+  --color-bg-alt: #f3f3f5;
+  --color-bg-about: #f9f9fb;
+  --color-text: #444650;
+  --color-text-muted: #475569;
+  --color-text-light: #44474D;
+  --color-text-label: #757682;
+  --color-text-input: #1a1a2e;
+  --color-border: #c5c6d2;
+  --color-border-light: #c5c6ce;
+  --color-footer-bg: #00113a;
+  --color-footer-text: #fff;
+  --color-overlay: rgba(0, 17, 58, 0.8);
+  --font-heading: 'Newsreader', Georgia, serif;
+  --font-body: 'Manrope', sans-serif;
+  --navbar-height: 84px;
+  --max-content: 1280px;
+  --max-form: 896px;
+  --shadow-card: 0 10px 25px rgba(0,0,0,0.08);
+  --shadow-image: 0 10px 25px rgba(0,0,0,0.15);
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --ease-out: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ── Global Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; padding: 0; overflow-x: hidden; }
+html { scroll-behavior: smooth; }
+input::placeholder, textarea::placeholder { color: #6b7280; }
+img { display: block; max-width: 100%; height: auto; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #888; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #555; }
+* { scrollbar-color: #888 #f1f1f1; scrollbar-width: thin; }
+
+/* ── Accessibility ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+a:focus, button:focus, input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ── Animations ── */
+@keyframes ersa-spin {
+  to { transform: rotate(360deg); }
+}
+.ersa-spinner {
+  display: inline-block; width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;
+  border-top-color: #fff; animation: ersa-spin 0.8s linear infinite;
+}
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Typography Helpers ── */
+.ersa-eyebrow {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-accent);
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+.ersa-eyebrow-wide { letter-spacing: 3.2px; }
+.ersa-h2 {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  color: var(--color-primary);
+  line-height: 48px;
+  margin: 0 0 16px;
+}
+.ersa-body {
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--color-text);
+  line-height: 28px;
+}
+
+/* ── Buttons ── */
+.ersa-btn-primary {
+  background: var(--color-primary); color: #fff; border: none; cursor: pointer;
+  padding: 16px 48px; font-family: var(--font-body); font-size: 14px;
+  letter-spacing: 2.8px; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 12px;
+  transition: background var(--transition-fast);
+}
+.ersa-btn-primary:hover { background: var(--color-primary-hover); }
+.ersa-btn-primary:disabled { opacity: 0.8; cursor: not-allowed; }
+
+.ersa-btn-outline {
+  background: transparent; color: var(--color-primary); border: 1px solid var(--color-border);
+  cursor: pointer; padding: 17px 33px; font-family: var(--font-body);
+  font-size: 14px; letter-spacing: 1.4px; text-transform: uppercase;
+  transition: all var(--transition-fast);
+}
+.ersa-btn-outline:hover { border-color: var(--color-primary); background: rgba(0,17,58,0.05); }
+
+.ersa-btn-gold {
+  background: var(--color-accent); color: #fff; border: none; cursor: pointer;
+  padding: 16.5px 32px 17px; font-family: var(--font-body);
+  font-size: 14px; letter-spacing: 1.4px; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background var(--transition-fast);
+}
+.ersa-btn-gold:hover { background: var(--color-accent-hover); }
+
+/* ── Form Inputs ── */
+.ersa-input {
+  width: 100%; border: none; border-bottom: 1px solid var(--color-border);
+  padding: 13px 12px 14px; font-family: var(--font-body);
+  font-size: 16px; color: var(--color-text-input);
+  background: transparent; outline: none; transition: border-color var(--transition-fast);
+}
+.ersa-input:focus { border-bottom-color: var(--color-primary); }
+.ersa-label {
+  font-family: var(--font-body); font-size: 10px; color: var(--color-text-label);
+  letter-spacing: 2px; text-transform: uppercase; display: block;
+  margin-bottom: 8px; text-align: left;
+}
+
+/* ── Form Grid ── */
+.ersa-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; }
+.ersa-form-full { grid-column: 1 / span 2; }
+.ersa-form-card {
+  max-width: var(--max-form); margin: 0 auto; background: var(--color-bg);
+  border: 1px solid rgba(197,198,210,0.2); box-shadow: var(--shadow-card); padding: 49px;
+}
+
+/* ── Navbar ── */
+.ersa-nav { display: flex; align-items: center; justify-content: space-between; }
+.ersa-nav-links { display: flex; gap: 32px; align-items: center; margin-left: auto; margin-right: 32px; }
+.ersa-nav-cta { display: block; }
+.ersa-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; flex-direction: column; gap: 5px; }
+.ersa-mobile-menu {
+  display: none; position: fixed; top: var(--navbar-height); left: 0; right: 0;
+  background: rgba(248,250,252,0.98); backdrop-filter: blur(4px);
+  flex-direction: column; padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); z-index: 99; gap: 0;
+}
+.ersa-mobile-menu.open { display: flex; }
+
+/* ── Hero ── */
+.ersa-hero { position: relative; overflow: hidden; background: #fff; width: 100%; }
+.ersa-hero-img-abs {
+  position: absolute; top: 140px; right: 47px;
+  width: min(542px, 40%); height: 659px;
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.ersa-hero-text { position: relative; padding: 140px 44% 80px 104px; text-align: left; }
+
+/* ── CA Hero ── */
+.ca-hero-section {
+  position: relative; overflow: hidden; background: #fff; width: 100%;
+}
+.ca-hero-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1269px; margin: 0 auto; padding: 140px 24px 80px; gap: 48px;
+}
+.ca-hero-col-left {
+  flex: 1 1 55%; max-width: 734px;
+}
+.ca-hero-col-right {
+  flex: 0 0 min(506px, 40%); aspect-ratio: 506/429;
+  border-radius: 20px; overflow: hidden;
+}
+.ca-hero-col-right img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.ca-hero-h1 {
+  font-family: 'Newsreader', Georgia, serif; font-weight: 500;
+  font-size: 56px; line-height: 64px;
+  color: #031632; margin: 0 0 24px;
+}
+.ca-hero-p {
+  font-family: 'Newsreader', Georgia, serif; font-size: 18px; line-height: 28px;
+  color: #44474D; margin: 0 0 32px; max-width: 672px;
+}
+.ca-hero-btns {
+  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+}
+.ca-services-section {
+  background: #F8F9FA; padding: 80px 104px;
+}
+.ca-services-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-items: flex-start;
+}
+.ca-service-card {
+  background: #fff; padding: 40px; display: flex; flex-direction: column;
+  gap: 16px; border: 1px solid rgba(197,198,206,0.2); border-radius: 8px;
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.05);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+.ca-service-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
+.ca-service-icon-box {
+  width: 64px; height: 64px; border-radius: 12px;
+  border: 1px solid rgba(197,198,206,0.2); display: flex;
+  align-items: center; justify-content: center; margin-bottom: 16px;
+}
+.ca-service-icon-inner {
+  display: flex; align-items: center; justify-content: center;
+}
+.ca-service-card-title {
+  font-family: 'Newsreader', Georgia, serif; font-size: 20px; line-height: 28px;
+  color: #031632; margin: 0; text-align: left;
+}
+.ca-service-card-desc {
+  font-family: 'Manrope', sans-serif; font-size: 16px; line-height: 24px;
+  color: #44474D; margin: 0; text-align: left; flex-grow: 1;
+}
+.ca-contact-section { background: #fff; padding: 80px 24px; }
+
+/* ── IP Hero ── */
+.ip-hero-section {
+  position: relative; overflow: hidden; background: #fff; width: 100%;
+}
+.ip-hero-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1269px; margin: 0 auto; padding: 140px 24px 80px; gap: 48px;
+}
+.ip-hero-col-left {
+  flex: 1 1 55%; max-width: 758px;
+}
+.ip-hero-col-right {
+  flex: 0 0 min(490px, 40%); aspect-ratio: 1/1;
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.ip-hero-col-right img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.ip-hero-h1 {
+  font-family: 'Newsreader', Georgia, serif; font-weight: 500;
+  font-size: 56px; line-height: 56px;
+  color: #031632; margin: 0 0 24px;
+}
+.ip-hero-p {
+  font-family: 'Manrope', sans-serif; font-size: 18px; line-height: 28px;
+  color: #44474D; margin: 0 0 32px; max-width: 680px;
+}
+.ip-hero-btns {
+  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+}
+.ip-services-section {
+  background: #F8F9FA; padding: 80px 104px;
+}
+.ip-service-card {
+  background: #fff; padding: 32px 32px 84px; display: flex; flex-direction: column;
+  gap: 16px; border: 1px solid #C5C6CE; transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+.ip-service-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
+.ip-service-card-title {
+  font-family: 'Newsreader', Georgia, serif; font-size: 20px; line-height: 28px;
+  color: #031632; margin: 0; text-align: left;
+}
+.ip-service-card-desc {
+  font-family: 'Manrope', sans-serif; font-size: 16px; line-height: 24px;
+  color: #44474D; margin: 0; text-align: left; flex-grow: 1;
+}
+.ip-cta-section {
+  background: #031632; padding: 96px 40px 96px 124px; text-align: center;
+}
+.ip-cta-h2 {
+  font-family: 'Manrope', sans-serif; font-size: 32px; line-height: 40px;
+  letter-spacing: -0.01em; color: #fff; margin: 0 0 16px;
+}
+.ip-cta-p {
+  font-family: 'Manrope', sans-serif; font-size: 18px; line-height: 28px;
+  color: rgba(255,255,255,0.8); margin: 0 auto 32px; max-width: 672px;
+}
+.ip-cta-btn {
+  padding: 20px 40px !important; border-radius: 2px;
+  font-family: 'Newsreader', Georgia, serif !important; font-size: 16px !important;
+  letter-spacing: normal !important; font-weight: 500 !important;
+}
+.ip-contact-section { background: #fff; padding: 80px 24px; }
+
+/* ── NRI Hero ── */
+.nri-hero-section {
+  position: relative; overflow: hidden; background: #fff; width: 100%;
+}
+.nri-hero-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1269px; margin: 0 auto; padding: 140px 24px 80px; gap: 48px;
+}
+.nri-hero-col-left {
+  flex: 1 1 55%; max-width: 672px;
+}
+.nri-hero-col-right {
+  flex: 0 0 min(469px, 40%); aspect-ratio: 1/1;
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.nri-hero-col-right img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.nri-hero-h1 {
+  font-family: 'Newsreader', Georgia, serif; font-weight: 500;
+  font-size: 56px; line-height: 64px;
+  color: #00113a; margin: 0 0 24px;
+}
+.nri-hero-accent { color: #775a19; }
+.nri-hero-p {
+  font-family: 'Manrope', sans-serif; font-size: 18px; line-height: 28px;
+  color: #444650; margin: 0 0 32px;
+}
+.nri-hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #EDEEEF; border: 1px solid var(--color-border-light); border-radius: 12px;
+  padding: 8px 16px; margin-bottom: 24px;
+}
+.nri-hero-badge-text {
+  font-family: 'Newsreader', Georgia, serif; font-size: 14px; color: #44474D;
+  letter-spacing: 0.05em;
+}
+.nri-hero-btns {
+  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+}
+.nri-services-section { background: var(--color-bg-alt); padding: 80px 104px; }
+.nri-services-header { text-align: center; margin-bottom: 48px; margin-top: 24px; }
+.nri-contact-section { background: #fff; padding: 80px 24px; }
+
+/* ── Practice Areas ── */
+.ersa-practice-section { background: var(--color-bg-alt); padding: 80px 104px; text-align: left; }
+.ersa-practice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-items: flex-start; }
+.ersa-practice-wide { grid-column: 1 / span 3; }
+.ersa-practice-card {
+  background: #fff; padding: 40px; display: flex; flex-direction: column;
+  gap: 12px; transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+.ersa-practice-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
+
+/* ── About ── */
+.ersa-about-section { background: var(--color-bg-about); padding: 128px 104px; text-align: left !important; }
+.ersa-about-grid {
+  display: grid; grid-template-columns: 1fr auto; gap: 48px;
+  align-items: center; max-width: 1280px; margin: 0;
+}
+.ersa-portrait {
+  width: 485px; height: 607px; flex-shrink: 0;
+  position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+.ersa-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; }
+
+/* ── Contact ── */
+.ersa-contact-section { background: #fff; padding: 80px 24px; }
+
+/* ── Payment ── */
+.ersa-payment-section {
+  background: #fff; border-top: 1px solid rgba(197,198,210,0.1);
+  padding: 97px 104px 96px; text-align: left;
+}
+.ersa-payment-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+  align-items: center; max-width: 1392px; margin: 0;
+}
+
+/* ── Disclaimer Banner ── */
+.ersa-disclaimer-banner {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+  background: var(--color-primary); box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+  padding: 20px 40px; display: flex; align-items: center;
+  justify-content: space-between; gap: 24px;
+  animation: slideUpBanner 0.4s var(--ease-out);
+}
+@keyframes slideUpBanner {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.ersa-disclaimer-banner-btns { display: flex; gap: 12px; flex-shrink: 0; }
+.ersa-disclaimer-icon { display: inline-block; }
+
+/* ── Footer ── */
+.ersa-footer { background: var(--color-footer-bg); padding: 44px 24px 0; overflow: hidden; box-sizing: border-box; }
+.ersa-footer-grid {
+  display: grid; grid-template-columns: auto 1fr auto auto; gap: 48px;
+  align-items: start; padding-bottom: 40px; width: 100%;
+  max-width: var(--max-content); margin: 0 auto; padding-left: 16px; padding-right: 16px;
+}
+.ersa-footer-bottom { max-width: var(--max-content); margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+
+/* ── Chat Widget ── */
+.chat-toggle { position: fixed; right: 24px; bottom: 24px; z-index: 9999; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.whatsapp-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; margin-top: 0; border-radius: 50%;
+}
+.whatsapp-btn svg { width: 22px; height: 22px; display: block; }
+
+/* ════════════ LARGE DESKTOP ════════════ */
+@media (min-width: 1441px) {
+  .ersa-hero-text { padding-left: 120px; }
+  .ersa-practice-section { padding: 100px 120px; text-align: left; }
+  .ersa-about-section { padding: 140px 120px; }
+  .ersa-payment-section { padding: 97px 120px 96px; }
+}
+
+/* ════════════ MID LAPTOP 1025–1440px ════════════ */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .ersa-hero-img-abs { width: min(460px, 38%); height: 580px; top: 120px; right: 36px; }
+  .ersa-hero-text { padding: 120px calc(38% + 36px) 80px 72px; }
+  .ersa-hero-h1 { font-size: 60px !important; line-height: 64px !important; }
+  .ersa-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .ersa-practice-section { padding: 80px 72px; }
+  .ersa-about-section { padding: 100px 72px; }
+  .ersa-payment-section { padding: 80px 72px; }
+  .nri-hero-inner { padding: 120px 24px 80px; gap: 40px; }
+  .nri-hero-h1 { font-size: 48px !important; line-height: 56px !important; }
+  .nri-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .nri-hero-col-right { flex: 0 0 min(400px, 38%); }
+  .ip-hero-inner { padding: 120px 24px 80px; gap: 40px; }
+  .ca-hero-inner { padding: 120px 24px 80px; gap: 40px; }
+  .ca-hero-h1 { font-size: 48px !important; line-height: 56px !important; }
+  .ca-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .ca-hero-col-right { flex: 0 0 min(420px, 38%); }
+  .ip-hero-h1 { font-size: 48px !important; line-height: 52px !important; }
+  .ip-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .ip-hero-col-right { flex: 0 0 min(400px, 38%); }
+  .ip-cta-section { padding: 80px 40px; }
+}
+
+/* ════════════ TABLET ≤ 1024px ════════════ */
+@media (max-width: 1024px) {
+  .ersa-hero { padding-top: 84px; }
+  .ersa-hero-img-abs { width: 36%; height: 480px; top: 110px; right: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+  .ersa-hero-text { padding: 110px calc(36% + 48px) 80px 40px; }
+  .ersa-practice-section { padding: 64px 40px; }
+  .ersa-practice-grid { grid-template-columns: repeat(2, 1fr); }
+  .ersa-practice-wide { grid-column: 1 / span 2; }
+  .ersa-about-section { padding: 80px 40px; }
+  .ersa-about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .ersa-portrait { width: 100%; height: 480px; }
+  .ersa-portrait img { object-position: center 30%; }
+  .ersa-payment-grid { grid-template-columns: 1fr; gap: 48px; }
+  .ersa-footer { padding: 44px 24px 24px; }
+  .ersa-footer-grid { grid-template-columns: 1fr; gap: 24px; align-items: start; }
+  .ersa-footer-grid > div { justify-self: stretch; }
+  .ersa-footer-bottom { padding-left: 16px; padding-right: 16px; }
+  .ersa-form-grid { grid-template-columns: 1fr; }
+  .ersa-form-full { grid-column: 1; }
+  .nri-hero-inner { padding: 110px 24px 60px; gap: 32px; }
+  .nri-hero-h1 { font-size: 42px !important; line-height: 50px !important; }
+  .nri-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .nri-hero-col-right { flex: 0 0 min(350px, 38%); }
+  .nri-services-section { padding: 64px 40px; }
+  .nri-services-header { margin-bottom: 32px; }
+  .ip-hero-inner { padding: 110px 24px 60px; gap: 32px; }
+  .ip-hero-h1 { font-size: 42px !important; line-height: 48px !important; }
+  .ip-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .ip-hero-col-right { flex: 0 0 min(350px, 38%); }
+  .ip-services-section { padding: 64px 40px; }
+  .ip-cta-section { padding: 64px 40px; }
+  .ca-hero-inner { padding: 110px 24px 60px; gap: 32px; }
+  .ca-hero-h1 { font-size: 42px !important; line-height: 50px !important; }
+  .ca-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .ca-hero-col-right { flex: 0 0 min(350px, 38%); }
+  .ca-services-section { padding: 64px 40px; }
+  .ca-services-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ════════════ SMALL TABLET ≤ 900px ════════════ */
+@media (max-width: 900px) {
+  .ersa-nav { padding: 0 16px; }
+  .ersa-hero { padding-top: 84px; }
+  .ersa-hero-text { padding: 90px calc(32px + 8%) 60px 32px; }
+  .ersa-hero-h1 { font-size: 54px !important; line-height: 62px !important; }
+  .ersa-practice-grid { gap: 24px; }
+  .ersa-about-h2 { font-size: 48px !important; }
+  .ersa-payment-h2 { font-size: 40px !important; }
+  .nri-hero-inner { padding: 90px 24px 60px; gap: 24px; }
+  .nri-hero-h1 { font-size: 36px !important; line-height: 44px !important; }
+  .nri-hero-col-right { flex: 0 0 min(280px, 35%); }
+  .nri-services-section { padding: 48px 32px; }
+}
+
+/* ════════════ MOBILE ≤ 768px ════════════ */
+@media (max-width: 768px) {
+  .ersa-nav { padding: 0 12px; }
+  .ersa-nav-links { display: none; }
+  .ersa-nav-cta { display: none; }
+  .ersa-hamburger { display: flex; }
+  .ersa-hero { min-height: auto; padding-top: 84px; }
+  .ersa-hero-img-abs { display: none; }
+  .ersa-hero-text { padding: 32px 20px 48px; text-align: center !important; }
+  .ersa-hero-h1 { font-size: 38px !important; line-height: 44px !important; margin: 0 0 24px !important; }
+  .ersa-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .ersa-hero-btns { justify-content: center !important; }
+  .ersa-hero-btns button { font-size: 13px !important; padding: 14px 24px !important; }
+  .nri-hero-inner { flex-direction: column-reverse; padding: 100px 20px 48px; gap: 32px; text-align: center; }
+  .nri-hero-col-left { flex: 1 1 100%; max-width: 100%; }
+  .nri-hero-col-right { flex: 0 0 auto; width: 100%; max-width: 400px; aspect-ratio: 1/1; }
+  .nri-hero-h1 { font-size: 34px !important; line-height: 42px !important; }
+  .nri-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .nri-hero-btns { justify-content: center !important; }
+  .nri-hero-badge { margin-left: auto; margin-right: auto; }
+  .nri-services-section { padding: 48px 20px; }
+  .nri-services-header { margin-bottom: 24px; }
+  .nri-contact-section { padding: 48px 16px; }
+  .ip-hero-inner { flex-direction: column-reverse; padding: 100px 20px 48px; gap: 32px; text-align: center; }
+  .ip-hero-col-left { flex: 1 1 100%; max-width: 100%; }
+  .ip-hero-col-right { flex: 0 0 auto; width: 100%; max-width: 400px; aspect-ratio: 1/1; }
+  .ip-hero-h1 { font-size: 34px !important; line-height: 40px !important; }
+  .ip-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .ip-hero-btns { justify-content: center !important; }
+  .ip-services-section { padding: 48px 20px; }
+  .ip-cta-section { padding: 48px 20px; }
+  .ip-cta-h2 { font-size: 24px !important; line-height: 32px !important; }
+  .ip-contact-section { padding: 48px 16px; }
+  .ca-hero-inner { flex-direction: column-reverse; padding: 100px 20px 48px; gap: 32px; text-align: center; }
+  .ca-hero-col-left { flex: 1 1 100%; max-width: 100%; }
+  .ca-hero-col-right { flex: 0 0 auto; width: 100%; max-width: 400px; aspect-ratio: 506/429; }
+  .ca-hero-h1 { font-size: 34px !important; line-height: 42px !important; }
+  .ca-hero-p { font-size: 16px !important; line-height: 26px !important; }
+  .ca-hero-btns { justify-content: center !important; }
+  .ca-services-section { padding: 48px 20px; }
+  .ca-services-grid { grid-template-columns: 1fr; }
+  .ca-contact-section { padding: 48px 16px; }
+  .ersa-practice-section { padding: 48px 20px; text-align: center !important; }
+  .ersa-practice-section > p, .ersa-practice-section > h2 { text-align: center !important; }
+  .ersa-practice-grid { grid-template-columns: 1fr; gap: 20px; }
+  .ersa-practice-wide { grid-column: 1; text-align: left !important; }
+  .ersa-practice-card { padding: 28px 24px; gap: 10px; text-align: left !important; }
+  .ersa-practice-card h3, .ersa-practice-wide h3, .ersa-practice-card p, .ersa-practice-wide p { text-align: left !important; }
+  .ersa-practice-h2 { font-size: 32px !important; line-height: 36px !important; }
+  .ersa-about-section { padding: 48px 20px; text-align: center !important; }
+  .ersa-about-grid { display: flex; flex-direction: column-reverse; gap: 32px; align-items: center; }
+  .ersa-portrait { width: 100%; height: 360px; border-radius: 8px; box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+  .ersa-portrait img { object-position: center 20%; }
+  .ersa-about-h2 { font-size: 40px !important; line-height: 44px !important; }
+  .ersa-about-p { font-size: 16px !important; line-height: 26px !important; }
+  .ersa-contact-section { padding: 48px 16px; text-align: center; }
+  .ersa-form-card { padding: 24px 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.08); text-align: left; }
+  .ersa-form-grid { grid-template-columns: 1fr; gap: 20px; }
+  .ersa-form-full { grid-column: 1; }
+  .ersa-disclaimer-banner { padding: 16px 20px; flex-direction: column; align-items: center; text-align: center; }
+  .ersa-disclaimer-icon { display: none; }
+  .ersa-disclaimer-banner > div:first-child { align-items: center; justify-content: center; }
+  .ersa-disclaimer-banner-btns { width: 100%; justify-content: center; }
+  .ersa-disclaimer-banner-btns button { flex: 1; }
+  .ersa-payment-section { padding: 48px 20px; text-align: center !important; }
+  .ersa-payment-grid { gap: 32px; justify-items: center; }
+  .ersa-payment-grid > div:first-child button { margin: 0 auto; }
+  .ersa-payment-h2 { font-size: 32px !important; line-height: 36px !important; }
+  .ersa-payment-p { font-size: 16px !important; line-height: 26px !important; margin-left: auto; margin-right: auto; }
+  .ersa-footer { padding: 36px 20px 0; text-align: left !important; }
+  .ersa-footer-grid { grid-template-columns: 1fr; gap: 32px; justify-items: start; }
+  .ersa-footer-grid > div { align-items: flex-start !important; }
+  .ersa-footer-grid > div > div { justify-content: flex-start !important; }
+  .ersa-footer-spacer { display: none; }
+}
+
+/* ════════════ SMALL MOBILE ≤ 480px ════════════ */
+@media (max-width: 480px) {
+  .ersa-nav { padding: 0 8px; }
+  .ersa-nav-cta { display: none !important; }
+  .ersa-hamburger { padding: 4px; }
+  .ersa-hero-text { padding: 24px 16px 32px; }
+  .ersa-hero-h1 { font-size: 28px !important; line-height: 34px !important; }
+  .ersa-hero-p { font-size: 14px !important; line-height: 22px !important; }
+  .ersa-hero-btns { flex-direction: column !important; align-items: stretch !important; }
+  .ersa-hero-btns button { width: 100%; text-align: center; justify-content: center; font-size: 12px !important; }
+  .nri-hero-inner { padding: 84px 16px 32px; gap: 24px; }
+  .nri-hero-h1 { font-size: 28px !important; line-height: 34px !important; }
+  .nri-hero-p { font-size: 14px !important; line-height: 22px !important; }
+  .nri-hero-btns { flex-direction: column !important; align-items: stretch !important; }
+  .nri-hero-btns button { width: 100%; text-align: center; justify-content: center; }
+  .nri-hero-col-right { max-width: 280px; }
+  .nri-services-section { padding: 32px 16px; }
+  .nri-contact-section { padding: 32px 12px; }
+  .ersa-practice-section { padding: 32px 16px; }
+  .ersa-practice-grid { gap: 16px; }
+  .ersa-practice-card { padding: 20px 16px; }
+  .ersa-practice-h2 { font-size: 24px !important; line-height: 30px !important; }
+  .ersa-about-section { padding: 32px 16px; }
+  .ersa-about-h2 { font-size: 32px !important; line-height: 38px !important; }
+  .ersa-about-p { font-size: 14px !important; }
+  .ersa-contact-section { padding: 32px 12px; }
+  .ersa-form-card { padding: 16px 16px; }
+  .ersa-form-grid { gap: 16px; }
+  .ersa-payment-h2 { font-size: 26px !important; }
+  .ersa-footer { padding: 28px 16px 0; }
+  .ersa-footer-grid { gap: 16px; }
+  input, textarea, select { font-size: 16px; }
+  .chat-toggle { right: 12px; bottom: 12px; }
+}
+
+/* ════════════ EXTRA SMALL ≤ 360px ════════════ */
+@media (max-width: 360px) {
+  .ersa-hero-h1 { font-size: 24px !important; line-height: 30px !important; }
+  .ersa-practice-h2 { font-size: 20px !important; }
+  .ersa-about-h2 { font-size: 28px !important; }
+}

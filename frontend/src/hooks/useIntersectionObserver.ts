@@ -1,0 +1,26 @@
+import { useState, useEffect, useRef } from "react";
+
+export function useIntersectionObserver(
+  options: IntersectionObserverInit = {}
+): [React.MutableRefObject<any>, boolean] {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<any>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1, ...options }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return [ref, isVisible];
+}
