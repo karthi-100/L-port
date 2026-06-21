@@ -242,7 +242,7 @@ const IntellectualPropertyServices: React.FC = () => {
       dropdown: [
         { label: "NRI Property Services", href: "/nri-property-services" },
         { label: "Intellectual Property", href: "/intellectual-property" },
-        { label: "Corporate & Commercial", href: "/corporate-advisory" },
+        { label: "Corporate Advisory", href: "/corporate-advisory" },
       ],
     },
   ];
