@@ -27,7 +27,7 @@ const defaultLinks: NavLink[] = [
   {
     label: "Services",
     dropdown: [
-      { label: "NRI Property Services", href: "/nri-property-services" },
+      { label: "Property Services", href: "/nri-property-services" },
       { label: "Intellectual Property", href: "/intellectual-property" },
       { label: "Corporate Advisory", href: "/corporate-advisory" }
     ],

@@ -222,7 +222,7 @@ const CorporateAdvisoryServices: React.FC = () => {
     {
       label: "Services",
       dropdown: [
-        { label: "NRI Property Services", href: "/nri-property-services" },
+        { label: "Property Services", href: "/nri-property-services" },
         { label: "Intellectual Property", href: "/intellectual-property" },
         { label: "Corporate Advisory", href: "/corporate-advisory" },
       ],
@@ -239,7 +239,7 @@ const CorporateAdvisoryServices: React.FC = () => {
       <HeroSectionCA />
       <ServicesSectionCA />
       <ContactSectionCA />
-      <Footer links={footerLinks} />
+      <Footer links={footerLinks} showServiceLinks={false} showPayment={true} />
       <ChatWidget />
     </div>
   );

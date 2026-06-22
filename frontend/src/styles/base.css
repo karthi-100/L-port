@@ -374,6 +374,17 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
 }
 .ersa-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; }
 
+/* ── Services (Contact section) ── */
+.ersa-services-section { background: #fff; padding: 80px 104px; }
+.ersa-services-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: flex-start;
+}
+.ersa-service-card {
+  background: var(--color-bg-alt); padding: 32px; display: flex; flex-direction: column;
+  gap: 8px; border-radius: 6px; transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+.ersa-service-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
 /* ── Contact ── */
 .ersa-contact-section { background: #fff; padding: 80px 24px; }
 
@@ -405,7 +416,7 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
 /* ── Footer ── */
 .ersa-footer { background: var(--color-footer-bg); padding: 44px 24px 0; overflow: hidden; box-sizing: border-box; }
 .ersa-footer-grid {
-  display: grid; grid-template-columns: auto 1fr auto auto; gap: 48px;
+  display: grid; grid-template-columns: auto 1fr auto auto auto; gap: 48px;
   align-items: start; padding-bottom: 40px; width: 100%;
   max-width: var(--max-content); margin: 0 auto; padding-left: 16px; padding-right: 16px;
 }
@@ -456,6 +467,8 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
   .ersa-hero { padding-top: 84px; }
   .ersa-hero-img-abs { width: 36%; height: 480px; top: 110px; right: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
   .ersa-hero-text { padding: 110px calc(36% + 48px) 80px 40px; }
+  .ersa-services-section { padding: 64px 40px; }
+  .ersa-services-grid { grid-template-columns: repeat(2, 1fr); }
   .ersa-practice-section { padding: 64px 40px; }
   .ersa-practice-grid { grid-template-columns: repeat(2, 1fr); }
   .ersa-practice-wide { grid-column: 1 / span 2; }
@@ -547,6 +560,9 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
   .ca-services-section { padding: 48px 20px; }
   .ca-services-grid { grid-template-columns: 1fr; }
   .ca-contact-section { padding: 48px 16px; }
+  .ersa-services-section { padding: 48px 20px; }
+  .ersa-services-grid { grid-template-columns: 1fr; gap: 16px; }
+  .ersa-service-card { padding: 24px; }
   .ersa-practice-section { padding: 48px 20px; text-align: center !important; }
   .ersa-practice-section > p, .ersa-practice-section > h2 { text-align: center !important; }
   .ersa-practice-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -599,6 +615,9 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
   .nri-hero-col-right { max-width: 280px; }
   .nri-services-section { padding: 32px 16px; }
   .nri-contact-section { padding: 32px 12px; }
+  .ersa-services-section { padding: 32px 16px; }
+  .ersa-services-grid { gap: 12px; }
+  .ersa-service-card { padding: 20px 16px; }
   .ersa-practice-section { padding: 32px 16px; }
   .ersa-practice-grid { gap: 16px; }
   .ersa-practice-card { padding: 20px 16px; }

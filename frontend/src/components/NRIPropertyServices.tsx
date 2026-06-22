@@ -25,7 +25,7 @@ const HeroSectionNRI: React.FC = memo(() => {
             <svg width="11" height="12" viewBox="0 0 11 12" fill="none">
               <path d="M5.5 0L6.74 4.26L11 5.5L6.74 6.74L5.5 11L4.26 6.74L0 5.5L4.26 4.26L5.5 0Z" fill="var(--color-accent)"/>
             </svg>
-            <span className="nri-hero-badge-text">Sovereign NRI Legal Assistance</span>
+            <span className="nri-hero-badge-text">Sovereign Legal Assistance</span>
           </div>
 
           <h1 className="nri-hero-h1">
@@ -209,9 +209,9 @@ const NRIPropertyServices: React.FC = () => {
     {
       label: "Service",
       dropdown: [
-        { label: "NRI Property Services", href: "/nri-property-services" },
+        { label: "Property Services", href: "/nri-property-services" },
         { label: "Intellectual Property", href: "/intellectual-property" },
-        { label: "Corporate & Commercial", href: "/corporate-advisory" },
+        { label: "Corporate Advisory", href: "/corporate-advisory" },
       ],
     },
   ];
@@ -226,7 +226,7 @@ const NRIPropertyServices: React.FC = () => {
       <HeroSectionNRI />
       <ServicesSection />
       <ContactSectionNRI />
-      <Footer links={footerLinks} />
+      <Footer links={footerLinks} showServiceLinks={false}  showPayment={true} />
       <ChatWidget />
     </div>
   );

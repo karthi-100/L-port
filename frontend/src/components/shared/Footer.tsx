@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/ERSALogo.svg";
 import IconLinkedIn from "../../assets/icon-linkedin.svg";
 import IconPhone from "../../assets/icon-phone.svg";
@@ -18,6 +19,7 @@ interface FooterProps {
   onOpenPayment?: () => void;
   onOpenTerms?: () => void;
   onOpenPrivacy?: () => void;
+  showServiceLinks?: boolean;
 }
 
 const contactInfo = [
@@ -38,8 +40,18 @@ const Footer: React.FC<FooterProps> = memo(({
   onOpenPayment,
   onOpenTerms,
   onOpenPrivacy,
+  showServiceLinks = true,
 }) => {
+  const navigate = useNavigate();
   const [ref, visible] = useIntersectionObserver();
+
+  const handleServiceNav = (path: string) => {
+    if (path.startsWith("/")) {
+      navigate(path);
+    } else {
+      document.getElementById(path.replace("#", ""))?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <footer ref={ref} className={`ersa-footer scroll-animate ${visible ? "visible" : ""}`}>
@@ -59,18 +71,39 @@ const Footer: React.FC<FooterProps> = memo(({
 
         <div className="ersa-footer-spacer" />
 
-        <div>
-          <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Home</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {links.map(({ label, onClick }) => (
-              <a key={label} onClick={onClick} style={{
-                fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#fff", textDecoration: "none", lineHeight: "24px", cursor: "pointer",
-                transition: "opacity 0.2s", opacity: 0.8,
-              }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}>{label}</a>
-            ))}
+        {showServiceLinks && (
+          <div>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Home</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {links.map(({ label, onClick }) => (
+                <a key={label} onClick={onClick} style={{
+                  fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#fff", textDecoration: "none", lineHeight: "24px", cursor: "pointer",
+                  transition: "opacity 0.2s", opacity: 0.8,
+                }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}>{label}</a>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {showServiceLinks && (
+          <div>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Services</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {[
+                { label: "Corporate Advisory", path: "/corporate-advisory" },
+                { label: "Intellectual Property", path: "/intellectual-property" },
+                { label: "NRI Property Services", path: "/nri-property-services" },
+              ].map(({ label, path }) => (
+                <a key={label} onClick={() => handleServiceNav(path)} style={{
+                  fontFamily: "'Manrope', sans-serif", fontSize: 16, color: "#fff", textDecoration: "none", lineHeight: "24px", cursor: "pointer",
+                  transition: "opacity 0.2s", opacity: 0.8,
+                }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}>{label}</a>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div>
           <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", margin: "0 0 15px" }}>Contact</p>
