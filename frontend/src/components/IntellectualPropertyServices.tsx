@@ -68,7 +68,7 @@ const HeroSectionIP: React.FC = memo(() => {
           <div className="ip-hero-btns">
             <button className="ersa-btn-gold"
               onClick={() => document.getElementById('ip-contact')?.scrollIntoView({ behavior: 'smooth' })}>
-              Book a Free IP Strategy Call
+              Book an IP Strategy Call
             </button>
             <button className="ersa-btn-outline"
               onClick={() => document.getElementById('ip-services')?.scrollIntoView({ behavior: 'smooth' })}>View Our Services</button>
@@ -126,7 +126,7 @@ const CTASectionIP: React.FC = memo(() => {
         </p>
         <button className="ersa-btn-gold ip-cta-btn"
           onClick={() => document.getElementById('ip-contact')?.scrollIntoView({ behavior: 'smooth' })}>
-          Book a Free IP Strategy Call
+          Book an IP Strategy Call
         </button>
       </div>
     </section>
