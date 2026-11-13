@@ -4,7 +4,6 @@ import emailjs from '@emailjs/browser';
 import IconArrowSubmit from "../assets/icon-submit.svg";
 import IconArrowDown from "../assets/icon-arrow-down.svg";
 import HeroImage from "../assets/corporate-hero-7677e7.png";
-import NavBar from "./shared/NavBar";
 import Footer from "./shared/Footer";
 import ChatWidget from "./shared/ChatWidget";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
@@ -217,17 +216,6 @@ ContactSectionCA.displayName = "ContactSectionCA";
 // ─── Root ──────────────────────────────────────────────────
 const CorporateAdvisoryServices: React.FC = () => {
   const navigate = useNavigate();
-  const navLinks = [
-    { label: "Home", onClick: () => navigate("/") },
-    {
-      label: "Services",
-      dropdown: [
-        { label: "Property Services", href: "/nri-property-services" },
-        { label: "Intellectual Property", href: "/intellectual-property" },
-        { label: "Corporate Advisory", href: "/corporate-advisory" },
-      ],
-    },
-  ];
   const footerLinks = [
     { label: "Home", onClick: () => navigate("/") },
     { label: "Services", onClick: () => navigate("/corporate-advisory") },
@@ -235,7 +223,6 @@ const CorporateAdvisoryServices: React.FC = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <NavBar links={navLinks} ctaLabel="Book Consultation" onCtaClick={() => document.getElementById('ca-contact')?.scrollIntoView({ behavior: 'smooth' })} />
       <HeroSectionCA />
       <ServicesSectionCA />
       <ContactSectionCA />

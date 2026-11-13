@@ -4,7 +4,6 @@ import emailjs from '@emailjs/browser';
 import IconArrowSubmit from "../assets/icon-submit.svg";
 import IconArrowDown from "../assets/icon-arrow-down.svg";
 import HeroIllustration from "../assets/ip-hero-illustration-56586a.png";
-import NavBar from "./shared/NavBar";
 import Footer from "./shared/Footer";
 import ChatWidget from "./shared/ChatWidget";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
@@ -235,17 +234,6 @@ ContactSectionIP.displayName = "ContactSectionIP";
 // ─── Root ──────────────────────────────────────────────────
 const IntellectualPropertyServices: React.FC = () => {
   const navigate = useNavigate();
-  const navLinks = [
-    { label: "Home", onClick: () => navigate("/") },
-    {
-      label: "Services",
-      dropdown: [
-        { label: "Property Services", href: "/nri-property-services" },
-        { label: "Intellectual Property", href: "/intellectual-property" },
-        { label: "Corporate Advisory", href: "/corporate-advisory" },
-      ],
-    },
-  ];
   const footerLinks = [
     { label: "Home", onClick: () => navigate("/") },
     { label: "Services", onClick: () => navigate("/intellectual-property") },
@@ -253,7 +241,6 @@ const IntellectualPropertyServices: React.FC = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <NavBar links={navLinks} ctaLabel="Book Consultation" onCtaClick={() => document.getElementById('ip-contact')?.scrollIntoView({ behavior: 'smooth' })} />
       <HeroSectionIP />
       <ServicesSectionIP />
       <CTASectionIP />

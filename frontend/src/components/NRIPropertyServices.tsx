@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import IconArrowSubmit from "../assets/icon-submit.svg";
 import IconArrowDown from "../assets/icon-arrow-down.svg";
 import HeroIllustration from "../assets/hero-illustration.png";
-import NavBar from "./shared/NavBar";
 import Footer from "./shared/Footer";
 import ChatWidget from "./shared/ChatWidget";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
@@ -204,17 +203,6 @@ ContactSectionNRI.displayName = "ContactSectionNRI";
 
 const NRIPropertyServices: React.FC = () => {
   const navigate = useNavigate();
-  const navLinks = [
-    { label: "Home", onClick: () => navigate("/") },
-    {
-      label: "Service",
-      dropdown: [
-        { label: "Property Services", href: "/nri-property-services" },
-        { label: "Intellectual Property", href: "/intellectual-property" },
-        { label: "Corporate Advisory", href: "/corporate-advisory" },
-      ],
-    },
-  ];
   const footerLinks = [
     { label: "Home", onClick: () => navigate("/") },
     { label: "Service", onClick: () => navigate("/nri-property-services") },
@@ -222,7 +210,6 @@ const NRIPropertyServices: React.FC = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <NavBar links={navLinks} ctaLabel="Book Consultancy" onCtaClick={() => document.getElementById('nri-contact')?.scrollIntoView({ behavior: 'smooth' })} />
       <HeroSectionNRI />
       <ServicesSection />
       <ContactSectionNRI />

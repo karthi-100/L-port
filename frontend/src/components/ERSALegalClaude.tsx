@@ -17,7 +17,6 @@ import { PaymentModal } from "./PaymentModal";
 import { TermsModal } from "./TermsModal";
 import LawLibrary from "../assets/law-library.png"
 import AboutImage from "../assets/about-image.jpeg"
-import NavBar from "./shared/NavBar";
 import Footer from "./shared/Footer";
 import ChatWidget from "./shared/ChatWidget";
 import { useWindowWidth } from "../hooks/useWindowWidth";
@@ -431,7 +430,6 @@ const ERSALegalClaude: React.FC = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <NavBar />
       <div>
         <HeroSection />
         <PracticeAreasSection />

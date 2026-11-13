@@ -22,8 +22,9 @@ interface NavBarProps {
 }
 
 const defaultLinks: NavLink[] = [
-  { label: "About", href: "#about" },
-  { label: "Practice Areas", href: "#practice" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/#about" },
+  { label: "Practice Areas", href: "/#practice" },
   {
     label: "Services",
     dropdown: [
@@ -32,7 +33,7 @@ const defaultLinks: NavLink[] = [
       { label: "Corporate Advisory", href: "/corporate-advisory" }
     ],
   },
-  { label: "Experience", href: "#about" },
+  { label: "Experience", href: "/#about" },
 ];
 
 const ChevronDown: React.FC<{ open: boolean }> = ({ open }) => (
